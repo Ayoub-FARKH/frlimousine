@@ -418,55 +418,102 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ============================================
-    // ENVOI D'EMAIL AUTOMATIQUE
+    // CONFIGURATION EMAILJS
+    // ============================================
+
+    // ⚠️ NE PAS MODIFIER CES VALEURS - Vos vraies clés EmailJS
+    const EMAILJS_CONFIG = {
+        SERVICE_ID: 'service_tckekpc',        // Votre Service ID
+        TEMPLATE_ID: 'template_y3w1ubf',      // Votre Template ID ✅
+        PUBLIC_KEY: 'jQk6uZum97YcxU7p-'       // Votre Public Key ✅
+    };
+
+    // ============================================
+    // ENVOI D'EMAIL AVEC EMAILJS
     // ============================================
 
     function sendReservationEmail(data) {
-        // Préparation du contenu de l'email
-        const subject = `Nouvelle réservation - ${data.vehicule.toUpperCase()} - ${data.date}`;
+        // Préparation des données pour le template EmailJS
+        const templateParams = {
+            // Destinataire
+            to_email: 'proayoubfarkh@gmail.com',
 
-        const emailBody = `
-NOUVELLE DEMANDE DE RÉSERVATION FRLIMOUSINE
+            // Informations du client
+            from_name: data.nom,
+            client_name: data.nom,
+            client_email: data.email,
+            client_phone: data.telephone,
+            client_service: getServiceName(data.service),
 
-Informations du client:
-- Nom: ${data.nom}
-- Téléphone: ${data.telephone}
-- Email: ${data.email}
-- Service: ${getServiceName(data.service)}
+            // Détails de réservation
+            vehicule_name: getVehiculeName(data.vehicule),
+            vehicule_passagers: data.passagers,
+            reservation_date: formatDate(data.date),
+            start_time: data.heureDebut,
+            end_time: data.heureFin,
+            duration: data.duree + ' heures',
+            departure_location: data.lieuDepart,
+            arrival_location: data.lieuArrivee,
 
-Détails de la réservation:
-- Véhicule: ${getVehiculeName(data.vehicule)}
-- Nombre de passagers: ${data.passagers}
-- Date: ${formatDate(data.date)}
-- Heure de début: ${data.heureDebut}
-- Heure de fin: ${data.heureFin}
-- Durée: ${data.duree} heures
+            // Prix et options
+            base_price: (VEHICULE_PRICES[data.vehicule] * parseInt(data.duree)) + '€',
+            options_price: data.options.length > 0 ?
+                data.options.reduce((total, option) => total + OPTIONS_PRICES[option], 0) + '€' : '0€',
+            total_price: calculatePriceForEmail(data) + '€',
+            options_list: data.options.length > 0 ?
+                data.options.map(opt => '• ' + getOptionName(opt)).join('\n') : 'Aucune option',
 
-Trajet:
-- Lieu de départ: ${data.lieuDepart}
-- Lieu d'arrivée: ${data.lieuArrivee}
+            // Message complémentaire
+            client_message: data.message || 'Aucun message complémentaire',
 
-${data.options.length > 0 ? 'Options supplémentaires:\n' + data.options.map(opt => '- ' + getOptionName(opt)).join('\n') : 'Aucune option supplémentaire'}
+            // Métadonnées
+            submission_date: new Date().toLocaleString('fr-FR')
+        };
 
-Prix total: ${calculatePriceForEmail(data)}€
+        // Affichage du loader
+        const submitBtn = document.querySelector('.submit-btn');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
+        submitBtn.disabled = true;
 
-${data.message ? 'Message complémentaire:\n' + data.message : 'Aucun message complémentaire'}
+        // Envoi de l'email via EmailJS
+        emailjs.send(
+            EMAILJS_CONFIG.SERVICE_ID,
+            EMAILJS_CONFIG.TEMPLATE_ID,
+            templateParams,
+            EMAILJS_CONFIG.PUBLIC_KEY
+        )
+        .then((response) => {
+            console.log('✅ Email envoyé avec succès!', response.status, response.text);
 
----
-Email envoyé automatiquement depuis le site FRLimousine
-Veuillez contacter le client pour confirmer la disponibilité.
-        `.trim();
+            // Remettre le bouton à l'état normal
+            submitBtn.innerHTML = '<i class="fas fa-check"></i> Réservation confirmée !';
+            submitBtn.style.background = '#28a745';
 
-        // Envoi de l'email via un service tiers (ici simulation)
-        console.log('Email envoyé à proayoubfarkh@gmail.com');
-        console.log('Sujet:', subject);
-        console.log('Contenu:', emailBody);
+            // Afficher le message de confirmation
+            showConfirmationMessage();
 
-        // Affichage du message de confirmation
-        showConfirmationMessage();
+            // Générer le PDF
+            generatePDF(data);
 
-        // Génération du PDF
-        generatePDF(data);
+            // Reset après 4 secondes
+            setTimeout(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                submitBtn.style.background = '';
+            }, 4000);
+
+        })
+        .catch((error) => {
+            console.error('❌ Erreur lors de l\'envoi:', error);
+
+            // Remettre le bouton à l'état normal
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+
+            // Afficher l'erreur
+            alert('❌ Erreur lors de l\'envoi de l\'email.\n\nVeuillez nous contacter directement :\n📞 06 12 94 05 40\n📧 proayoubfarkh@gmail.com');
+        });
     }
 
     function getServiceName(code) {
