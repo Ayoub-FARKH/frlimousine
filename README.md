@@ -156,21 +156,6 @@ frlimousine/
 
 ---
 
-## 📸 Captures d'Écran
-
-<div align="center">
-
-### 🖥️ Version Desktop
-![Desktop Preview](https://via.placeholder.com/800x400/000000/FFFFFF?text=Version+Desktop)
-
-### 📱 Version Mobile
-![Mobile Preview](https://via.placeholder.com/400x600/000000/FFFFFF?text=Version+Mobile)
-
-### 🎨 Interface Utilisateur
-![UI Preview](https://via.placeholder.com/800x400/2c2c2c/FFFFFF?text=Interface+Utilisateur)
-
-</div>
-
 ---
 
 ## 🤝 Contribution
