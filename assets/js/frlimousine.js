@@ -810,17 +810,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function sendReservationEmail(data) {
         // Préparation des données pour le template EmailJS
+        // ⚠️ Variables doivent correspondre EXACTEMENT à votre template EmailJS
         const templateParams = {
             // Destinataire
             to_email: 'proayoubfarkh@gmail.com',
-
-            // Informations du client
+    
+            // Informations du client (variables principales)
+            user_os: 'Windows 10.0',
+            user_platform: 'Microsoft Windows',
+            user_browser: 'Chrome',
+            user_version: 'Chrome 140.0.0.0',
+            user_country: 'France',
+            user_ip: '2b0f737346da3cd1b6585f25f213a087',
+            user_referrer: 'https://ayoub-informatique.netlify.app',
+            to_email: 'proayoubfarkh@gmail.com',
             from_name: data.nom,
             client_name: data.nom,
             client_email: data.email,
             client_phone: data.telephone,
             client_service: getServiceName(data.service),
-
+    
             // Détails de réservation
             vehicule_name: getVehiculeName(data.vehicule),
             vehicule_passagers: data.passagers,
@@ -830,7 +839,7 @@ document.addEventListener('DOMContentLoaded', function() {
             duration: data.duree + ' heures',
             departure_location: data.lieuDepart,
             arrival_location: data.lieuArrivee,
-
+    
             // Prix et options
             base_price: (VEHICULE_PRICES[data.vehicule] * parseInt(data.duree)) + '€',
             options_price: data.options.length > 0 ?
@@ -838,10 +847,11 @@ document.addEventListener('DOMContentLoaded', function() {
             total_price: calculatePriceForEmail(data) + '€',
             options_list: data.options.length > 0 ?
                 data.options.map(opt => '• ' + getOptionName(opt)).join('\n') : 'Aucune option',
-
+    
             // Message complémentaire
             client_message: data.message || 'Aucun message complémentaire',
-
+            message: data.message || 'Aucun message complémentaire',
+    
             // Métadonnées
             submission_date: new Date().toLocaleString('fr-FR')
         };
