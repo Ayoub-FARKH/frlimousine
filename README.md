@@ -107,7 +107,7 @@ FRLimousine est une entreprise française spécialisée dans la **location de li
 frlimousine/
 ├── index.html              # Page principale
 ├── galerie.html           # Galerie photos
-├── receive-pdf.php        # Script automatique de réception PDF
+├── receive-pdf.php        # Script automatique réception PDF (OVH)
 ├── README.md              # Documentation
 ├── assets/
 │   ├── css/               # Feuilles de styles
@@ -120,6 +120,7 @@ frlimousine/
 │   │   ├── jquery.min.js      # Bibliothèque jQuery essentielle
 │   │   └── jquery.scrollex.min.js # Plugin animations au scroll
 │   └── images/            # Images et médias
+├── pdfs/                  # Répertoire automatique des PDFs reçus
 └── images/               # Images supplémentaires
 ```
 
@@ -132,16 +133,33 @@ frlimousine/
 - **Performance** : Site 60% plus rapide à charger
 - **Sécurité** : Moins de dépendances externes = surface d'attaque réduite
 
-### 📋 Configuration Webhook (Optionnel)
+### 📋 Configuration OVH (Recommandé)
 
-Pour recevoir automatiquement les devis PDF :
+Pour recevoir automatiquement les devis PDF sur votre hébergement OVH :
 
-1. **Utilisez un webhook gratuit** comme [webhook.site](https://webhook.site)
-2. **Copiez l'URL** fournie par le service
-3. **Remplacez** `https://ayoub-informatique.netlify.app/.netlify/functions/receive-pdf` dans `frlimousine.js`
-4. **Les devis** seront envoyés automatiquement à cette URL
+1. **Téléchargez** le fichier `receive-pdf.php` sur votre serveur OVH
+2. **Placez-le** à la racine de votre site web
+3. **Remplacez** dans `frlimousine.js` :
+   ```javascript
+   const webhookUrl = 'https://votre-domaine.ovh/receive-pdf.php';
+   ```
+4. **Assurez-vous** que le répertoire `pdfs/` est créé et accessible en écriture
 
-**OU utilisez le script PHP fourni** (`receive-pdf.php`) sur votre serveur.
+### 🔧 Permissions OVH
+
+Connectez-vous à votre serveur OVH et exécutez :
+```bash
+chmod 755 receive-pdf.php
+mkdir -p pdfs
+chmod 777 pdfs
+```
+
+### 📧 Notification automatique
+
+Le script envoie automatiquement un email à `proayoubfarkh@gmail.com` avec :
+- Toutes les informations du client
+- Le prix calculé
+- Un lien vers le fichier PDF sauvegardé
 
 ### 📋 Fonctionnalités PDF Avancées
 

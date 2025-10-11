@@ -139,8 +139,8 @@ function sendReservationEmail(data) {
         timestamp: new Date().toISOString()
     };
 
-    // Solution automatique : webhook gratuit (remplacez par votre URL)
-    const webhookUrl = 'https://ayoub-informatique.netlify.app/.netlify/functions/receive-pdf'; // Remplacez par votre URL
+    // Solution automatique : OVH (remplacez par votre URL OVH)
+    const webhookUrl = 'https://votre-domaine.ovh/receive-pdf.php'; // Remplacez par votre URL OVH
 
     // Envoyer automatiquement via fetch
     fetch(webhookUrl, {
