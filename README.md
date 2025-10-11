@@ -99,40 +99,6 @@ FRLimousine est une entreprise française spécialisée dans la **location de li
 - **GitHub** - Hébergement du code source
 - **VS Code** - Environnement de développement
 
----
-
-## 🚀 Installation & Utilisation
-
-### Prérequis
-- Un serveur web (Apache, Nginx, ou serveur local)
-- Un navigateur moderne
-- Une connexion internet (pour les polices Google Fonts)
-
-### Installation Locale
-
-1. **Cloner le repository**
-```bash
-git clone https://github.com/Ayoub-FARKH/frlimousine.git
-cd frlimousine
-```
-
-2. **Lancer un serveur local**
-```bash
-# Avec Python 3
-python -m http.server 8000
-
-# Avec Node.js (si installé)
-npx serve .
-
-# Avec PHP
-php -S localhost:8000
-```
-
-3. **Ouvrir dans le navigateur**
-```
-http://localhost:8000
-```
-
 ### Structure du Projet
 
 ```
@@ -153,29 +119,6 @@ frlimousine/
 │   └── images/            # Images et médias
 └── images/               # Images supplémentaires
 ```
-
----
-
----
-
-## 🤝 Contribution
-
-Nous accueillons les contributions ! Merci de :
-
-1. **Fork** le projet
-2. Créer une **branche** pour votre fonctionnalité (`git checkout -b feature/AmazingFeature`)
-3. **Commit** vos changements (`git commit -m 'Add some AmazingFeature'`)
-4. **Push** vers la branche (`git push origin feature/AmazingFeature`)
-5. Ouvrir une **Pull Request**
-
-### Guidelines de Contribution
-- Respecter les conventions de code existantes
-- Tester sur différents navigateurs et appareils
-- Documenter les nouvelles fonctionnalités
-- Maintenir la responsivité
-
----
-
 ## 📄 Licence
 
 Ce projet est sous licence **MIT** - voir le fichier [LICENSE](LICENSE) pour plus de détails.
