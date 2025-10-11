@@ -1,0 +1,10 @@
+# Protection du répertoire PDF sur OVH Cloud
+<Files "*">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Autoriser l'accès depuis le script PHP
+<Files "*.php">
+    Allow from all
+</Files>

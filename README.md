@@ -133,33 +133,72 @@ frlimousine/
 - **Performance** : Site 60% plus rapide à charger
 - **Sécurité** : Moins de dépendances externes = surface d'attaque réduite
 
-### 📋 Configuration OVH (Recommandé)
+### 📋 Guide de Déploiement OVH (Étape par Étape)
 
-Pour recevoir automatiquement les devis PDF sur votre hébergement OVH :
-
-1. **Téléchargez** le fichier `receive-pdf.php` sur votre serveur OVH
-2. **Placez-le** à la racine de votre site web
-3. **Remplacez** dans `frlimousine.js` :
-   ```javascript
-   const webhookUrl = 'https://votre-domaine.ovh/receive-pdf.php';
-   ```
-4. **Assurez-vous** que le répertoire `pdfs/` est créé et accessible en écriture
-
-### 🔧 Permissions OVH
-
-Connectez-vous à votre serveur OVH et exécutez :
+#### **Étape 1 : Connexion à votre serveur OVH**
 ```bash
+# Via SSH ou panneau de contrôle OVH
+# Votre serveur : frlimousine.ovh
+```
+
+#### **Étape 2 : Téléchargement du script**
+1. Téléchargez `receive-pdf.php` depuis votre projet
+2. Placez-le à la racine de votre site web
+3. Créez le répertoire `pdfs/`
+
+#### **Étape 3 : Configuration des permissions**
+```bash
+# Via SSH OVH :
 chmod 755 receive-pdf.php
 mkdir -p pdfs
 chmod 777 pdfs
 ```
 
-### 📧 Notification automatique
+#### **Étape 4 : Configuration JavaScript**
+Dans `assets/js/frlimousine.js`, ligne ~115 :
+```javascript
+const webhookUrl = 'https://frlimousine.ovh/receive-pdf.php';
+```
 
-Le script envoie automatiquement un email à `proayoubfarkh@gmail.com` avec :
-- Toutes les informations du client
-- Le prix calculé
-- Un lien vers le fichier PDF sauvegardé
+#### **Étape 5 : Test du système**
+1. Ouvrez votre site web
+2. Remplissez le formulaire de réservation
+3. Soumettez le formulaire
+4. **Vous devez recevoir automatiquement** un email à `proayoubfarkh@gmail.com`
+
+### 📧 Ce que vous recevrez automatiquement :
+
+**Sujet :** 🚗 Nouveau devis PDF - [Nom du client]
+
+**Contenu :**
+```
+Bonjour FRLimousine,
+
+Un nouveau devis a été généré automatiquement sur votre site :
+
+📋 INFORMATIONS CLIENT
+Nom: Jean Dupont
+Email: jean@email.com
+Téléphone: 06 12 34 56 78
+
+🚗 DÉTAILS DE RÉSERVATION
+Service: Mariage
+Véhicule: Limousine Lincoln
+Prix: 480€
+
+📄 FICHIER PDF
+Emplacement: /pdfs/Devis_FRLimousine_Jean_Dupont_2024-10-11.html
+
+⏰ Reçu le: 11/10/2024 à 13:15:30
+```
+
+### 🔧 Dépannage OVH
+
+**Si vous ne recevez pas d'email :**
+1. Vérifiez les logs : `tail -f pdfs/reception.log`
+2. Vérifiez les permissions : `ls -la receive-pdf.php`
+3. Testez l'URL : `curl https://frlimousine.ovh/receive-pdf.php`
+4. Vérifiez la configuration email OVH
 
 ### 📋 Fonctionnalités PDF Avancées
 

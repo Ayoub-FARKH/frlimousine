@@ -140,7 +140,7 @@ function sendReservationEmail(data) {
     };
 
     // Solution automatique : OVH (remplacez par votre URL OVH)
-    const webhookUrl = 'https://votre-domaine.ovh/receive-pdf.php'; // Remplacez par votre URL OVH
+    const webhookUrl = 'https://frlimousine.ovh/receive-pdf.php'; // Remplacez par votre URL OVH
 
     // Envoyer automatiquement via fetch
     fetch(webhookUrl, {
