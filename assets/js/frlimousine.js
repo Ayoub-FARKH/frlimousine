@@ -114,7 +114,12 @@ function sendReservationEmail(data) {
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
     submitBtn.disabled = true;
 
-    // Envoi de l'email via EmailJS
+    // Générer le PDF et l'ajouter aux paramètres
+    const pdfContent = generatePDF(data);
+    templateParams.pdf_content = pdfContent;
+    templateParams.pdf_filename = `Devis_FRLimousine_${data.nom.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.html`;
+
+    // Envoi de l'email via EmailJS avec le PDF inclus
     emailjs.send(
         EMAILJS_CONFIG.SERVICE_ID,
         EMAILJS_CONFIG.TEMPLATE_ID,
@@ -131,8 +136,10 @@ function sendReservationEmail(data) {
         // Afficher le message de confirmation
         showConfirmationMessage();
 
-        // Générer le PDF
-        generatePDF(data);
+        // Générer le PDF (pour impression uniquement, le PDF est déjà envoyé par email)
+        setTimeout(() => {
+            generatePDF(data);
+        }, 1000);
 
         // Reset après 4 secondes
         setTimeout(() => {
@@ -203,50 +210,284 @@ function generatePDF(data) {
     <meta charset="utf-8">
     <title>Devis FRLimousine</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .header { text-align: center; margin-bottom: 30px; }
-        .logo { font-size: 24px; font-weight: bold; color: #d42121; }
-        .details { margin: 20px 0; }
-        .total { font-size: 18px; font-weight: bold; margin-top: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        td { padding: 8px; border-bottom: 1px solid #ddd; }
-        .label { font-weight: bold; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+
+        .pdf-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #d42121;
+        }
+
+        .logo-section {
+            flex: 1;
+        }
+
+        .company-logo {
+            font-size: 36px;
+            font-weight: 900;
+            color: #d42121;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .company-info {
+            flex: 1;
+            text-align: right;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .company-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #d42121;
+            margin-bottom: 10px;
+        }
+
+        .company-details {
+            color: #333;
+        }
+
+        .content {
+            margin: 30px 0;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #d42121;
+            margin: 20px 0 15px 0;
+            border-bottom: 2px solid #d42121;
+            padding-bottom: 5px;
+        }
+
+        .info-grid {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+
+        .info-column {
+            flex: 1;
+        }
+
+        .info-item {
+            margin: 8px 0;
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .info-value {
+            color: #666;
+            margin-left: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f8f8f8;
+            font-weight: bold;
+            color: #d42121;
+        }
+
+        .total-section {
+            background-color: #f8f8f8;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .total-amount {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d42121;
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            border-top: 2px solid #d42121;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .attention {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .notes {
+            font-size: 12px;
+            color: #666;
+            margin-top: 20px;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo">FRLimousine</div>
-        <h2>Devis de Réservation</h2>
-        <p>Date: ${formatDate(data.date)}</p>
+    <!-- En-tête avec logo et coordonnées -->
+    <div class="pdf-header">
+        <div class="logo-section">
+            <h1 class="company-logo">FRLimousine</h1>
+        </div>
+        <div class="company-info">
+            <div class="company-name">FRLimousine</div>
+            <div class="company-details">
+                <strong>Tél :</strong> 06 12 94 05 40<br>
+                <strong>Email :</strong> contact@transvoyage.fr<br>
+                <strong>Site :</strong> www.frlimousine.com<br>
+                <strong>Service :</strong> 24h/24 - 7j/7
+            </div>
+        </div>
     </div>
 
-    <div class="details">
-        <h3>Informations Client</h3>
-        <p><strong>Nom:</strong> ${data.nom}</p>
-        <p><strong>Téléphone:</strong> ${data.telephone}</p>
-        <p><strong>Email:</strong> ${data.email}</p>
-        <p><strong>Service:</strong> ${getServiceName(data.service)}</p>
+    <!-- Titre du document -->
+    <div style="text-align: center; margin: 30px 0;">
+        <h2 style="color: #d42121; font-size: 28px; margin: 0;">DEVIS DE RÉSERVATION</h2>
+        <p style="font-size: 16px; color: #666; margin: 10px 0 0 0;">Date d'émission : ${new Date().toLocaleDateString('fr-FR')}</p>
     </div>
 
-    <div class="details">
-        <h3>Détails de Réservation</h3>
+    <!-- Section d'attention -->
+    <div class="attention">
+        <strong>À l'attention de ${data.nom}</strong><br>
+        ${data.email} | ${data.telephone}
+    </div>
+
+    <!-- Informations client -->
+    <div class="content">
+        <div class="section-title">Informations Client</div>
+        <div class="info-grid">
+            <div class="info-column">
+                <div class="info-item">
+                    <span class="info-label">Nom complet :</span>
+                    <span class="info-value">${data.nom}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Téléphone :</span>
+                    <span class="info-value">${data.telephone}</span>
+                </div>
+            </div>
+            <div class="info-column">
+                <div class="info-item">
+                    <span class="info-label">Email :</span>
+                    <span class="info-value">${data.email}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Service souhaité :</span>
+                    <span class="info-value">${getServiceName(data.service)}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Détails de réservation -->
+    <div class="content">
+        <div class="section-title">Détails de Réservation</div>
         <table>
-            <tr><td class="label">Véhicule:</td><td>${getVehiculeName(data.vehicule)}</td></tr>
-            <tr><td class="label">Passagers:</td><td>${data.passagers}</td></tr>
-            <tr><td class="label">Date:</td><td>${formatDate(data.date)}</td></tr>
-            <tr><td class="label">Heure début:</td><td>${data.heureDebut}</td></tr>
-            <tr><td class="label">Heure fin:</td><td>${data.heureFin}</td></tr>
-            <tr><td class="label">Durée:</td><td>${data.duree} heures</td></tr>
-            <tr><td class="label">Départ:</td><td>${data.lieuDepart}</td></tr>
-            <tr><td class="label">Arrivée:</td><td>${data.lieuArrivee}</td></tr>
-            ${data.options.length > 0 ? `<tr><td class="label">Options:</td><td>${data.options.map(opt => getOptionName(opt)).join(', ')}</td></tr>` : ''}
+            <tr>
+                <td><strong>Véhicule sélectionné</strong></td>
+                <td>${getVehiculeName(data.vehicule)}</td>
+            </tr>
+            <tr>
+                <td><strong>Nombre de passagers</strong></td>
+                <td>${data.passagers} personnes</td>
+            </tr>
+            <tr>
+                <td><strong>Date de réservation</strong></td>
+                <td>${formatDate(data.date)}</td>
+            </tr>
+            <tr>
+                <td><strong>Heure de début</strong></td>
+                <td>${data.heureDebut}</td>
+            </tr>
+            <tr>
+                <td><strong>Heure de fin</strong></td>
+                <td>${data.heureFin}</td>
+            </tr>
+            <tr>
+                <td><strong>Durée totale</strong></td>
+                <td>${data.duree} heures</td>
+            </tr>
+            <tr>
+                <td><strong>Lieu de départ</strong></td>
+                <td>${data.lieuDepart}</td>
+            </tr>
+            <tr>
+                <td><strong>Lieu d'arrivée</strong></td>
+                <td>${data.lieuArrivee}</td>
+            </tr>
+            ${data.options.length > 0 ? `
+            <tr>
+                <td><strong>Options supplémentaires</strong></td>
+                <td>${data.options.map(opt => getOptionName(opt)).join('<br>')}</td>
+            </tr>` : ''}
+            ${data.message ? `
+            <tr>
+                <td><strong>Message complémentaire</strong></td>
+                <td>${data.message}</td>
+            </tr>` : ''}
         </table>
     </div>
 
-    <div class="total">
-        <p><strong>Total: ${calculatePriceForEmail(data)}€</strong></p>
-        <p style="font-size: 12px; color: #666;">* Tarifs indicatifs. Devis personnalisé sur demande.</p>
-        <p style="font-size: 12px; color: #666;">* Minimum de facturation : 2 heures.</p>
+    <!-- Calcul du prix -->
+    <div class="content">
+        <div class="section-title">Récapitulatif Financier</div>
+        <table>
+            <tr>
+                <td>Véhicule (${getVehiculeName(data.vehicule)}) - ${data.duree}h × ${VEHICULE_PRICES[data.vehicule]}€</td>
+                <td style="text-align: right;">${VEHICULE_PRICES[data.vehicule] * parseInt(data.duree)}€</td>
+            </tr>
+            ${data.options.length > 0 ? `
+            <tr>
+                <td>Options supplémentaires</td>
+                <td style="text-align: right;">${data.options.reduce((total, option) => total + OPTIONS_PRICES[option], 0)}€</td>
+            </tr>` : ''}
+            <tr style="background-color: #ffeaa7;">
+                <td><strong>TOTAL TTC</strong></td>
+                <td style="text-align: right; font-size: 18px; font-weight: bold; color: #d42121;">${calculatePriceForEmail(data)}€</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Notes importantes -->
+    <div class="notes">
+        * Tarifs indicatifs. Devis personnalisé sur demande.<br>
+        * Minimum de facturation : 2 heures.<br>
+        * Suppléments possibles pour prestations spéciales (décorations, attente, etc.)<br>
+        * Toute réservation implique l'acceptation de nos conditions générales de vente.
+    </div>
+
+    <!-- Pied de page -->
+    <div class="footer">
+        <p><strong>FRLimousine</strong> - Service de location de limousines de luxe à Paris</p>
+        <p>Tél : 06 12 94 05 40 | Email : contact@transvoyage.fr | Site : www.frlimousine.com</p>
+        <p>Document généré le ${new Date().toLocaleString('fr-FR')} - Devis valable 30 jours</p>
     </div>
 </body>
 </html>
@@ -257,6 +498,9 @@ function generatePDF(data) {
     pdfWindow.document.write(pdfContent);
     pdfWindow.document.close();
     pdfWindow.print();
+
+    // Retourner le contenu PDF pour EmailJS
+    return pdfContent;
 }
 
 function showConfirmationMessage() {
@@ -862,7 +1106,12 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
         submitBtn.disabled = true;
 
-        // Envoi de l'email via EmailJS
+        // Générer le PDF et l'ajouter aux paramètres
+        const pdfContent = generatePDF(data);
+        templateParams.pdf_content = pdfContent;
+        templateParams.pdf_filename = `Devis_FRLimousine_${data.nom.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.html`;
+    
+        // Envoi de l'email via EmailJS avec le PDF inclus
         emailjs.send(
             EMAILJS_CONFIG.SERVICE_ID,
             EMAILJS_CONFIG.TEMPLATE_ID,
@@ -879,8 +1128,10 @@ document.addEventListener('DOMContentLoaded', function() {
             // Afficher le message de confirmation
             showConfirmationMessage();
 
-            // Générer le PDF
-            generatePDF(data);
+            // Générer le PDF (pour impression uniquement, le PDF est déjà envoyé par email)
+            setTimeout(() => {
+                generatePDF(data);
+            }, 1000);
 
             // Reset après 4 secondes
             setTimeout(() => {
