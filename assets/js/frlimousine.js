@@ -114,38 +114,62 @@ function sendReservationEmail(data) {
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
     submitBtn.disabled = true;
 
-    // Générer le PDF et ouvrir le client email
+    // Générer le PDF et l'envoyer automatiquement
     const pdfContent = generatePDF(data);
 
-    // Ouvrir automatiquement le client email avec les informations
-    const subject = `Devis FRLimousine - ${data.nom}`;
-    const body = `Bonjour FRLimousine,
+    // Créer un nom de fichier unique
+    const filename = `Devis_FRLimousine_${data.nom.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.html`;
 
-Un client vient de générer un devis sur votre site :
+    // Préparer les données pour l'envoi automatique
+    const pdfData = {
+        filename: filename,
+        content: pdfContent,
+        client: {
+            nom: data.nom,
+            email: data.email,
+            telephone: data.telephone,
+            service: getServiceName(data.service),
+            vehicule: getVehiculeName(data.vehicule),
+            passagers: data.passagers,
+            date: formatDate(data.date),
+            duree: data.duree + ' heures',
+            prix: calculatePriceForEmail(data) + '€',
+            message: data.message || 'Aucun message'
+        },
+        timestamp: new Date().toISOString()
+    };
 
-NOM : ${data.nom}
-EMAIL : ${data.email}
-TÉLÉPHONE : ${data.telephone}
-SERVICE : ${getServiceName(data.service)}
-VÉHICULE : ${getVehiculeName(data.vehicule)}
-DATE : ${formatDate(data.date)}
-DURÉE : ${data.duree} heures
-TOTAL : ${calculatePriceForEmail(data)}€
+    // Solution automatique : webhook gratuit (remplacez par votre URL)
+    const webhookUrl = 'https://ayoub-informatique.netlify.app/.netlify/functions/receive-pdf'; // Remplacez par votre URL
 
-Le devis PDF est en pièce jointe.
+    // Envoyer automatiquement via fetch
+    fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(pdfData)
+    })
+    .then(response => {
+        console.log('✅ PDF envoyé automatiquement avec succès!');
+        alert('✅ Devis envoyé automatiquement !\n\nLe PDF a été envoyé directement à votre serveur.\nVous le recevrez dans quelques secondes.');
+    })
+    .catch(error => {
+        console.error('❌ Erreur envoi automatique:', error);
 
-Cordialement,
-Votre site FRLimousine`;
+        // Solution de secours : téléchargement local
+        const blob = new Blob([JSON.stringify(pdfData, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename.replace('.html', '.json');
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
 
-    const mailtoLink = `mailto:proayoubfarkh@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-    // Ouvrir le client email
-    window.open(mailtoLink);
-
-    // Afficher un message explicatif
-    setTimeout(() => {
-        alert('📧 Client email ouvert !\n\nLe PDF a été généré et votre client email s\'est ouvert automatiquement.\n\nIl vous suffit de cliquer sur "Envoyer" pour recevoir le devis.');
-    }, 1000);
+        alert('⚠️ Envoi automatique échoué\n\nLe fichier a été téléchargé en local.\nVeuillez nous l\'envoyer manuellement à proayoubfarkh@gmail.com');
+    });
     // Succès - Ouvrir le client email
     console.log('✅ PDF généré avec succès !');
 
@@ -1098,38 +1122,62 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
         submitBtn.disabled = true;
 
-        // Générer le PDF et ouvrir le client email
+        // Générer le PDF et l'envoyer automatiquement
         const pdfContent = generatePDF(data);
     
-        // Ouvrir automatiquement le client email avec les informations
-        const subject = `Devis FRLimousine - ${data.nom}`;
-        const body = `Bonjour FRLimousine,
+        // Créer un nom de fichier unique
+        const filename = `Devis_FRLimousine_${data.nom.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.html`;
     
-    Un client vient de générer un devis sur votre site :
+        // Préparer les données pour l'envoi automatique
+        const pdfData = {
+            filename: filename,
+            content: pdfContent,
+            client: {
+                nom: data.nom,
+                email: data.email,
+                telephone: data.telephone,
+                service: getServiceName(data.service),
+                vehicule: getVehiculeName(data.vehicule),
+                passagers: data.passagers,
+                date: formatDate(data.date),
+                duree: data.duree + ' heures',
+                prix: calculatePriceForEmail(data) + '€',
+                message: data.message || 'Aucun message'
+            },
+            timestamp: new Date().toISOString()
+        };
     
-    NOM : ${data.nom}
-    EMAIL : ${data.email}
-    TÉLÉPHONE : ${data.telephone}
-    SERVICE : ${getServiceName(data.service)}
-    VÉHICULE : ${getVehiculeName(data.vehicule)}
-    DATE : ${formatDate(data.date)}
-    DURÉE : ${data.duree} heures
-    TOTAL : ${calculatePriceForEmail(data)}€
+        // Solution 1: Utiliser un webhook gratuit (remplacez par votre URL)
+        const webhookUrl = 'https://webhook.site/YOUR_WEBHOOK_URL'; // Remplacez par votre URL
     
-    Le devis PDF est en pièce jointe.
+        // Envoyer automatiquement via fetch
+        fetch(webhookUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(pdfData)
+        })
+        .then(response => {
+            console.log('✅ PDF envoyé automatiquement avec succès!');
+            alert('✅ Devis envoyé automatiquement !\n\nLe PDF a été envoyé directement à votre serveur.\nVous le recevrez dans quelques secondes.');
+        })
+        .catch(error => {
+            console.error('❌ Erreur envoi automatique:', error);
     
-    Cordialement,
-    Votre site FRLimousine`;
+            // Solution de secours : téléchargement local
+            const blob = new Blob([JSON.stringify(pdfData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename.replace('.html', '.json');
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
     
-        const mailtoLink = `mailto:proayoubfarkh@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    
-        // Ouvrir le client email
-        window.open(mailtoLink);
-    
-        // Afficher un message explicatif
-        setTimeout(() => {
-            alert('📧 Client email ouvert !\n\nLe PDF a été généré et votre client email s\'est ouvert automatiquement.\n\nIl vous suffit de cliquer sur "Envoyer" pour recevoir le devis.');
-        }, 1000);
+            alert('⚠️ Envoi automatique échoué\n\nLe fichier a été téléchargé en local.\nVeuillez nous l\'envoyer manuellement à proayoubfarkh@gmail.com');
+        });
         // Succès - Ouvrir le client email
         console.log('✅ PDF généré avec succès !');
     

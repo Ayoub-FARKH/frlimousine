@@ -107,6 +107,7 @@ FRLimousine est une entreprise française spécialisée dans la **location de li
 frlimousine/
 ├── index.html              # Page principale
 ├── galerie.html           # Galerie photos
+├── receive-pdf.php        # Script automatique de réception PDF
 ├── README.md              # Documentation
 ├── assets/
 │   ├── css/               # Feuilles de styles
@@ -131,14 +132,26 @@ frlimousine/
 - **Performance** : Site 60% plus rapide à charger
 - **Sécurité** : Moins de dépendances externes = surface d'attaque réduite
 
+### 📋 Configuration Webhook (Optionnel)
+
+Pour recevoir automatiquement les devis PDF :
+
+1. **Utilisez un webhook gratuit** comme [webhook.site](https://webhook.site)
+2. **Copiez l'URL** fournie par le service
+3. **Remplacez** `https://ayoub-informatique.netlify.app/.netlify/functions/receive-pdf` dans `frlimousine.js`
+4. **Les devis** seront envoyés automatiquement à cette URL
+
+**OU utilisez le script PHP fourni** (`receive-pdf.php`) sur votre serveur.
+
 ### 📋 Fonctionnalités PDF Avancées
 
 - **Design professionnel** avec logo et coordonnées entreprise
 - **Génération automatique** lors de la soumission du formulaire
-- **Client email automatique** (mailto) - Plus besoin d'EmailJS !
+- **Envoi automatique** vers votre serveur (webhook gratuit)
 - **Mise en page élégante** avec sections distinctes
 - **Calcul automatique** des prix et options
-- **Archivage numérique** de tous les devis
+- **Archivage automatique** de tous les devis
+- **Notification par email** optionnelle
 ##  Licence
 
 Ce projet est sous licence **MIT** - voir le fichier [LICENSE](LICENSE) pour plus de détails.
