@@ -94,7 +94,7 @@ FRLimousine est une entreprise française spécialisée dans la **location de li
 ### Frameworks & Libraries
 - **Font Awesome** - Iconographie professionnelle
 - **Google Fonts** - Typographie Open Sans
-- **jQuery** - Interactions dynamiques
+- **jQuery** - Interactions dynamiques (optimisé : 3 fichiers essentiels)
 
 ### Outils de Développement
 - **Git** - Contrôle de version
@@ -135,7 +135,7 @@ frlimousine/
 
 - **Design professionnel** avec logo et coordonnées entreprise
 - **Génération automatique** lors de la soumission du formulaire
-- **Envoi EmailJS** avec le PDF en pièce jointe
+- **Client email automatique** (mailto) - Plus besoin d'EmailJS !
 - **Mise en page élégante** avec sections distinctes
 - **Calcul automatique** des prix et options
 - **Archivage numérique** de tous les devis

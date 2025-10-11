@@ -114,51 +114,54 @@ function sendReservationEmail(data) {
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
     submitBtn.disabled = true;
 
-    // Générer le PDF et l'ajouter aux paramètres
+    // Générer le PDF et ouvrir le client email
     const pdfContent = generatePDF(data);
-    templateParams.pdf_content = pdfContent;
-    templateParams.pdf_filename = `Devis_FRLimousine_${data.nom.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.html`;
 
-    // Envoi de l'email via EmailJS avec le PDF inclus
-    emailjs.send(
-        EMAILJS_CONFIG.SERVICE_ID,
-        EMAILJS_CONFIG.TEMPLATE_ID,
-        templateParams,
-        EMAILJS_CONFIG.PUBLIC_KEY
-    )
-    .then((response) => {
-        console.log('✅ Email envoyé avec succès!', response.status, response.text);
+    // Ouvrir automatiquement le client email avec les informations
+    const subject = `Devis FRLimousine - ${data.nom}`;
+    const body = `Bonjour FRLimousine,
 
-        // Remettre le bouton à l'état normal
-        submitBtn.innerHTML = '<i class="fas fa-check"></i> Réservation confirmée !';
-        submitBtn.style.background = '#28a745';
+Un client vient de générer un devis sur votre site :
 
-        // Afficher le message de confirmation
-        showConfirmationMessage();
+NOM : ${data.nom}
+EMAIL : ${data.email}
+TÉLÉPHONE : ${data.telephone}
+SERVICE : ${getServiceName(data.service)}
+VÉHICULE : ${getVehiculeName(data.vehicule)}
+DATE : ${formatDate(data.date)}
+DURÉE : ${data.duree} heures
+TOTAL : ${calculatePriceForEmail(data)}€
 
-        // Générer le PDF (pour impression uniquement, le PDF est déjà envoyé par email)
-        setTimeout(() => {
-            generatePDF(data);
-        }, 1000);
+Le devis PDF est en pièce jointe.
 
-        // Reset après 4 secondes
-        setTimeout(() => {
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-            submitBtn.style.background = '';
-        }, 4000);
+Cordialement,
+Votre site FRLimousine`;
 
-    })
-    .catch((error) => {
-        console.error('❌ Erreur lors de l\'envoi:', error);
+    const mailtoLink = `mailto:proayoubfarkh@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
-        // Remettre le bouton à l'état normal
+    // Ouvrir le client email
+    window.open(mailtoLink);
+
+    // Afficher un message explicatif
+    setTimeout(() => {
+        alert('📧 Client email ouvert !\n\nLe PDF a été généré et votre client email s\'est ouvert automatiquement.\n\nIl vous suffit de cliquer sur "Envoyer" pour recevoir le devis.');
+    }, 1000);
+    // Succès - Ouvrir le client email
+    console.log('✅ PDF généré avec succès !');
+
+    // Remettre le bouton à l'état normal
+    submitBtn.innerHTML = '<i class="fas fa-check"></i> Devis généré !';
+    submitBtn.style.background = '#28a745';
+
+    // Afficher le message de confirmation
+    showConfirmationMessage();
+
+    // Reset après 3 secondes
+    setTimeout(() => {
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
-
-        // Afficher l'erreur
-        alert('❌ Erreur lors de l\'envoi de l\'email.\n\nVeuillez nous contacter directement :\n📞 06 12 94 05 40\n📧 proayoubfarkh@gmail.com');
-    });
+        submitBtn.style.background = '';
+    }, 3000);
 }
 
 // ============================================
@@ -600,15 +603,10 @@ function validatePassagers() {
 }
 
 // ============================================
-//    CONFIGURATION EMAILJS
+//    CONFIGURATION EMAILJS SUPPRIMÉE
 // ============================================
-
-// ⚠️ NE PAS MODIFIER CES VALEURS - Vos vraies clés EmailJS
-const EMAILJS_CONFIG = {
-    SERVICE_ID: 'service_tckekpc',        // Votre Service ID
-    TEMPLATE_ID: 'template_y3w1ubf',      // Votre Template ID ✅
-    PUBLIC_KEY: 'jQk6uZum97YcxU7p-'       // Votre Public Key ✅
-};
+// Remplacée par la solution mailto automatique
+// Plus besoin de service tiers !
 
 /* Tarifs des véhicules (basés sur le site existant) */
 const VEHICULE_PRICES = {
@@ -1038,15 +1036,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ============================================
-    // CONFIGURATION EMAILJS
+    // CONFIGURATION EMAILJS SUPPRIMÉE
     // ============================================
-
-    // ⚠️ NE PAS MODIFIER CES VALEURS - Vos vraies clés EmailJS
-    const EMAILJS_CONFIG = {
-        SERVICE_ID: 'service_tckekpc',        // Votre Service ID
-        TEMPLATE_ID: 'template_y3w1ubf',      // Votre Template ID ✅
-        PUBLIC_KEY: 'jQk6uZum97YcxU7p-'       // Votre Public Key ✅
-    };
+    // Remplacée par la solution mailto automatique
 
     // ============================================
     // ENVOI D'EMAIL AVEC EMAILJS
@@ -1106,51 +1098,54 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
         submitBtn.disabled = true;
 
-        // Générer le PDF et l'ajouter aux paramètres
+        // Générer le PDF et ouvrir le client email
         const pdfContent = generatePDF(data);
-        templateParams.pdf_content = pdfContent;
-        templateParams.pdf_filename = `Devis_FRLimousine_${data.nom.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.html`;
     
-        // Envoi de l'email via EmailJS avec le PDF inclus
-        emailjs.send(
-            EMAILJS_CONFIG.SERVICE_ID,
-            EMAILJS_CONFIG.TEMPLATE_ID,
-            templateParams,
-            EMAILJS_CONFIG.PUBLIC_KEY
-        )
-        .then((response) => {
-            console.log('✅ Email envoyé avec succès!', response.status, response.text);
-
-            // Remettre le bouton à l'état normal
-            submitBtn.innerHTML = '<i class="fas fa-check"></i> Réservation confirmée !';
-            submitBtn.style.background = '#28a745';
-
-            // Afficher le message de confirmation
-            showConfirmationMessage();
-
-            // Générer le PDF (pour impression uniquement, le PDF est déjà envoyé par email)
-            setTimeout(() => {
-                generatePDF(data);
-            }, 1000);
-
-            // Reset après 4 secondes
-            setTimeout(() => {
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-                submitBtn.style.background = '';
-            }, 4000);
-
-        })
-        .catch((error) => {
-            console.error('❌ Erreur lors de l\'envoi:', error);
-
-            // Remettre le bouton à l'état normal
+        // Ouvrir automatiquement le client email avec les informations
+        const subject = `Devis FRLimousine - ${data.nom}`;
+        const body = `Bonjour FRLimousine,
+    
+    Un client vient de générer un devis sur votre site :
+    
+    NOM : ${data.nom}
+    EMAIL : ${data.email}
+    TÉLÉPHONE : ${data.telephone}
+    SERVICE : ${getServiceName(data.service)}
+    VÉHICULE : ${getVehiculeName(data.vehicule)}
+    DATE : ${formatDate(data.date)}
+    DURÉE : ${data.duree} heures
+    TOTAL : ${calculatePriceForEmail(data)}€
+    
+    Le devis PDF est en pièce jointe.
+    
+    Cordialement,
+    Votre site FRLimousine`;
+    
+        const mailtoLink = `mailto:proayoubfarkh@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    
+        // Ouvrir le client email
+        window.open(mailtoLink);
+    
+        // Afficher un message explicatif
+        setTimeout(() => {
+            alert('📧 Client email ouvert !\n\nLe PDF a été généré et votre client email s\'est ouvert automatiquement.\n\nIl vous suffit de cliquer sur "Envoyer" pour recevoir le devis.');
+        }, 1000);
+        // Succès - Ouvrir le client email
+        console.log('✅ PDF généré avec succès !');
+    
+        // Remettre le bouton à l'état normal
+        submitBtn.innerHTML = '<i class="fas fa-check"></i> Devis généré !';
+        submitBtn.style.background = '#28a745';
+    
+        // Afficher le message de confirmation
+        showConfirmationMessage();
+    
+        // Reset après 3 secondes
+        setTimeout(() => {
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
-
-            // Afficher l'erreur
-            alert('❌ Erreur lors de l\'envoi de l\'email.\n\nVeuillez nous contacter directement :\n📞 06 12 94 05 40\n📧 proayoubfarkh@gmail.com');
-        });
+            submitBtn.style.background = '';
+        }, 3000);
     }
 
     function getServiceName(code) {
