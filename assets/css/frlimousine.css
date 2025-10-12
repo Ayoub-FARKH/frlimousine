@@ -468,9 +468,7 @@ input, select, textarea {
 /* Boutons d'action des véhicules */
 .vehicle-actions {
 	display: flex;
-	gap: 1rem;
 	justify-content: center;
-	flex-wrap: wrap;
 	margin-top: 1.5rem;
 }
 
@@ -515,8 +513,7 @@ input, select, textarea {
 	}
 
 	.vehicle-actions {
-		flex-direction: column;
-		gap: 0.8rem;
+		margin-top: 1rem;
 	}
 
 	.discover-btn {
