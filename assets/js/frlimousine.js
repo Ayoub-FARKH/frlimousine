@@ -574,9 +574,10 @@ function calculatePrice() {
 
 function getVehiculeName(code) {
     const names = {
-        'mercedes-s': 'Mercedes Classe S',
-        'lincoln': 'Limousine Lincoln',
-        'hummer': 'Limousine Hummer'
+        'mustang-rouge': 'Mustang Rouge',
+        'mustang-bleu': 'Mustang Bleu',
+        'excalibur': 'Excalibur',
+        'mercedes-viano': 'Mercedes Viano'
     };
     return names[code] || 'Non sélectionné';
 }
@@ -621,9 +622,10 @@ function validatePassagers() {
 
 /* Tarifs des véhicules (basés sur le site existant) */
 const VEHICULE_PRICES = {
-    'mercedes-s': 80,  // €/heure
-    'lincoln': 120,    // €/heure
-    'hummer': 150      // €/heure
+    'mustang-rouge': 90,  // €/heure
+    'mustang-bleu': 95,   // €/heure
+    'excalibur': 110,     // €/heure
+    'mercedes-viano': 85  // €/heure
 };
 
 const OPTIONS_PRICES = {
@@ -959,9 +961,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function getVehiculeName(code) {
         const names = {
-            'mercedes-s': 'Mercedes Classe S',
-            'lincoln': 'Limousine Lincoln',
-            'hummer': 'Limousine Hummer'
+            'mustang-rouge': 'Mustang Rouge',
+            'mustang-bleu': 'Mustang Bleu',
+            'excalibur': 'Excalibur',
+            'mercedes-viano': 'Mercedes Viano'
         };
         return names[code] || 'Non sélectionné';
     }
@@ -1040,9 +1043,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function getMaxPassagers(vehicule) {
         const maxPassagers = {
-            'mercedes-s': 4,
-            'lincoln': 10,
-            'hummer': 20
+            'mustang-rouge': 4,
+            'mustang-bleu': 4,
+            'excalibur': 4,
+            'mercedes-viano': 8
         };
         return maxPassagers[vehicule] || 4;
     }
@@ -1360,17 +1364,21 @@ document.addEventListener('DOMContentLoaded', function() {
             if (vehiculeSelect && passagersInput) {
                 // Sélectionner le véhicule selon le type
                 switch(vehicleType) {
-                    case 'hummer':
-                        vehiculeSelect.value = 'hummer';
-                        passagersInput.value = '15'; // Valeur par défaut pour Hummer
+                    case 'mustang-rouge':
+                        vehiculeSelect.value = 'mustang-rouge';
+                        passagersInput.value = '3'; // Valeur par défaut pour Mustang Rouge
                         break;
-                    case 'lincoln':
-                        vehiculeSelect.value = 'lincoln';
-                        passagersInput.value = '8'; // Valeur par défaut pour Lincoln
+                    case 'mustang-bleu':
+                        vehiculeSelect.value = 'mustang-bleu';
+                        passagersInput.value = '3'; // Valeur par défaut pour Mustang Bleu
                         break;
-                    case 'mercedes':
-                        vehiculeSelect.value = 'mercedes-s';
-                        passagersInput.value = '3'; // Valeur par défaut pour Mercedes
+                    case 'excalibur':
+                        vehiculeSelect.value = 'excalibur';
+                        passagersInput.value = '3'; // Valeur par défaut pour Excalibur
+                        break;
+                    case 'mercedes-viano':
+                        vehiculeSelect.value = 'mercedes-viano';
+                        passagersInput.value = '6'; // Valeur par défaut pour Mercedes Viano
                         break;
                 }
 
