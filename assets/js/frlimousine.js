@@ -139,36 +139,22 @@ function sendReservationEmail(data) {
         timestamp: new Date().toISOString()
     };
 
-    // Solution automatique : OVH (remplacez par votre URL OVH)
-    const webhookUrl = 'https://frlimousine.ovh/receive-pdf.php'; // Remplacez par votre URL OVH
-
-    // Envoyer automatiquement via fetch
-    fetch(webhookUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(pdfData)
+    // Solution EMAILJS (service email professionnel)
+    emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+    .then(function(response) {
+        console.log('✅ Email envoyé avec succès!', response.status, response.text);
+        alert('✅ Devis envoyé par email !\n\nVous recevrez le PDF dans quelques instants à proayoubfarkh@gmail.com');
     })
-    .then(response => {
-        console.log('✅ PDF envoyé automatiquement avec succès!');
-        alert('✅ Devis envoyé automatiquement !\n\nLe PDF a été envoyé directement à votre serveur.\nVous le recevrez dans quelques secondes.');
-    })
-    .catch(error => {
-        console.error('❌ Erreur envoi automatique:', error);
+    .catch(function(error) {
+        console.error('❌ Erreur envoi email:', error);
 
-        // Solution de secours : téléchargement local
-        const blob = new Blob([JSON.stringify(pdfData, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename.replace('.html', '.json');
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        // Solution de secours : téléchargement local du PDF
+        const pdfWindow = window.open('', '_blank');
+        pdfWindow.document.write(pdfContent);
+        pdfWindow.document.close();
+        pdfWindow.print();
 
-        alert('⚠️ Envoi automatique échoué\n\nLe fichier a été téléchargé en local.\nVeuillez nous l\'envoyer manuellement à proayoubfarkh@gmail.com');
+        alert('⚠️ Envoi email échoué\n\nLe PDF s\'est ouvert pour impression.\nVeuillez nous contacter à proayoubfarkh@gmail.com');
     });
     // Succès - Ouvrir le client email
     console.log('✅ PDF généré avec succès !');
@@ -208,7 +194,8 @@ function getOptionName(code) {
         'decoration-florale': 'Décoration florale (+50€)',
         'boissons': 'Pack boissons (+30€)',
         'musique': 'Système audio premium (+25€)',
-        'chauffeur-costume': 'Chauffeur en costume (+20€)'
+        'chauffeur-costume': 'Chauffeur en costume (+20€)',
+        'photographie-video': 'Service photographie/vidéo professionnel (+100€/heure)'
     };
     return options[code] || code;
 }
@@ -643,7 +630,8 @@ const OPTIONS_PRICES = {
     'decoration-florale': 50,
     'boissons': 30,
     'musique': 25,
-    'chauffeur-costume': 20
+    'chauffeur-costume': 20,
+    'photographie-video': 100
 };
 
 // Attendre que le DOM soit chargé
@@ -1147,9 +1135,9 @@ document.addEventListener('DOMContentLoaded', function() {
             timestamp: new Date().toISOString()
         };
     
-        // Solution 1: Utiliser un webhook gratuit (remplacez par votre URL)
-        const webhookUrl = 'https://webhook.site/YOUR_WEBHOOK_URL'; // Remplacez par votre URL
-    
+        // Solution automatique : OVH (remplacez par votre URL OVH)
+        const webhookUrl = 'https://frlimousine.ovh/receive-pdf.php'; // Remplacez par votre URL OVH
+
         // Envoyer automatiquement via fetch
         fetch(webhookUrl, {
             method: 'POST',
@@ -1164,7 +1152,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             console.error('❌ Erreur envoi automatique:', error);
-    
+
             // Solution de secours : téléchargement local
             const blob = new Blob([JSON.stringify(pdfData, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
@@ -1175,7 +1163,7 @@ document.addEventListener('DOMContentLoaded', function() {
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-    
+
             alert('⚠️ Envoi automatique échoué\n\nLe fichier a été téléchargé en local.\nVeuillez nous l\'envoyer manuellement à proayoubfarkh@gmail.com');
         });
         // Succès - Ouvrir le client email
