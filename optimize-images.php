@@ -1,229 +1,191 @@
 <?php
 /**
- * optimize-images.php - Script d'optimisation automatique des images FRLimousine
- * Compresser et convertir les images pour de meilleures performances
+ * Script d'optimisation des images FRLimousine
+ * Compression et redimensionnement des images pour améliorer les performances
  */
 
 // Configuration
-$sourceDirs = ['images/2022/', 'images/webp/'];
-$backupDir = 'images/backup/';
-$quality = 85; // Qualité JPEG/WebP
-$maxWidth = 1200; // Largeur maximale
-$maxHeight = 800; // Hauteur maximale
+$sourceDirs = [
+    'images/Mustang Rouge PS',
+    'images/Mustang Bleue PS',
+    'images/Excalibur PS',
+    'images/Viano PS'
+];
 
-// Créer le répertoire de sauvegarde
-if (!file_exists($backupDir)) {
-    mkdir($backupDir, 0755, true);
-}
+$maxWidth = 1200;  // Largeur maximale
+$maxHeight = 800;  // Hauteur maximale
+$quality = 85;     // Qualité JPEG (1-100)
 
-// Fonction de sauvegarde
-function backupImage($source) {
-    global $backupDir;
-    $backupPath = $backupDir . basename($source);
-    return copy($source, $backupPath);
-}
-
-// Fonction de redimensionnement d'image
-function resizeImage($source, $destination, $maxWidth, $maxHeight, $quality) {
-    list($width, $height, $type) = getimagesize($source);
-
-    // Calculer les nouvelles dimensions
-    $ratio = min($maxWidth / $width, $maxHeight / $height);
-    $newWidth = round($width * $ratio);
-    $newHeight = round($height * $ratio);
-
-    // Créer l'image de destination
-    $newImage = imagecreatetruecolor($newWidth, $newHeight);
-
-    // Gérer la transparence pour PNG
-    if ($type == IMAGETYPE_PNG) {
-        imagealphablending($newImage, false);
-        imagesavealpha($newImage, true);
+// Fonction pour optimiser une image
+function optimizeImage($sourcePath, $destinationPath, $maxWidth, $maxHeight, $quality) {
+    // Vérifier si l'image source existe
+    if (!file_exists($sourcePath)) {
+        echo "Erreur: Fichier source introuvable: $sourcePath\n";
+        return false;
     }
 
-    // Charger l'image source
+    // Créer le dossier de destination si nécessaire
+    $destinationDir = dirname($destinationPath);
+    if (!is_dir($destinationDir)) {
+        mkdir($destinationDir, 0755, true);
+    }
+
+    // Obtenir les informations de l'image
+    list($width, $height, $type) = getimagesize($sourcePath);
+
+    // Calculer les nouvelles dimensions
+    $newWidth = $width;
+    $newHeight = $height;
+
+    if ($width > $maxWidth) {
+        $newWidth = $maxWidth;
+        $newHeight = ($height * $maxWidth) / $width;
+    }
+
+    if ($newHeight > $maxHeight) {
+        $newWidth = ($newWidth * $maxHeight) / $newHeight;
+        $newHeight = $maxHeight;
+    }
+
+    // Créer l'image optimisée
     switch ($type) {
         case IMAGETYPE_JPEG:
-            $sourceImage = imagecreatefromjpeg($source);
+            $sourceImage = imagecreatefromjpeg($sourcePath);
             break;
         case IMAGETYPE_PNG:
-            $sourceImage = imagecreatefrompng($source);
-            break;
-        case IMAGETYPE_WEBP:
-            $sourceImage = imagecreatefromwebp($source);
+            $sourceImage = imagecreatefrompng($sourcePath);
             break;
         default:
+            echo "Type d'image non supporté: $type\n";
             return false;
+    }
+
+    if (!$sourceImage) {
+        echo "Erreur lors de la création de l'image: $sourcePath\n";
+        return false;
+    }
+
+    // Créer la nouvelle image
+    $optimizedImage = imagecreatetruecolor($newWidth, $newHeight);
+
+    // Conserver la transparence pour les PNG
+    if ($type === IMAGETYPE_PNG) {
+        imagealphablending($optimizedImage, false);
+        imagesavealpha($optimizedImage, true);
     }
 
     // Redimensionner
-    imagecopyresampled($newImage, $sourceImage, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+    imagecopyresampled($optimizedImage, $sourceImage, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
 
-    // Sauvegarder selon le type
-    $extension = pathinfo($destination, PATHINFO_EXTENSION);
-    switch (strtolower($extension)) {
-        case 'jpg':
-        case 'jpeg':
-            return imagejpeg($newImage, $destination, $quality);
-        case 'png':
-            return imagepng($newImage, $destination, 9);
-        case 'webp':
-            return imagewebp($newImage, $destination, $quality);
-        default:
-            return false;
+    // Sauvegarder l'image optimisée
+    $success = false;
+    switch ($type) {
+        case IMAGETYPE_JPEG:
+            $success = imagejpeg($optimizedImage, $destinationPath, $quality);
+            break;
+        case IMAGETYPE_PNG:
+            $success = imagepng($optimizedImage, $destinationPath, 9);
+            break;
     }
 
-    // Nettoyer la mémoire
-    imagedestroy($newImage);
+    // Libérer la mémoire
     imagedestroy($sourceImage);
+    imagedestroy($optimizedImage);
+
+    return $success;
 }
 
-// Fonction d'optimisation principale
-function optimizeImages($dirs, $quality, $maxWidth, $maxHeight) {
-    $stats = [
-        'processed' => 0,
-        'saved_bytes' => 0,
-        'errors' => 0
-    ];
+// Fonction pour obtenir la taille d'un dossier
+function getDirectorySize($path) {
+    $totalSize = 0;
+    $files = scandir($path);
 
-    foreach ($dirs as $dir) {
-        if (!is_dir($dir)) {
-            echo "Répertoire $dir non trouvé\n";
-            continue;
-        }
-
-        $files = scandir($dir);
-        foreach ($files as $file) {
-            if ($file === '.' || $file === '..') continue;
-
-            $sourcePath = $dir . $file;
-            if (!is_file($sourcePath)) continue;
-
-            // Vérifier l'extension
-            $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-            if (!in_array($extension, ['jpg', 'jpeg', 'png', 'webp'])) {
-                continue;
-            }
-
-            // Sauvegarder l'original
-            if (!backupImage($sourcePath)) {
-                echo "Erreur sauvegarde: $sourcePath\n";
-                $stats['errors']++;
-                continue;
-            }
-
-            // Taille originale
-            $originalSize = filesize($sourcePath);
-
-            // Optimiser l'image
-            if (resizeImage($sourcePath, $sourcePath, $maxWidth, $maxHeight, $quality)) {
-                $newSize = filesize($sourcePath);
-                $savedBytes = $originalSize - $newSize;
-
-                $stats['processed']++;
-                $stats['saved_bytes'] += $savedBytes;
-
-                echo "✅ Optimisé: $file | Économisé: " . round($savedBytes / 1024, 1) . " KB\n";
-            } else {
-                echo "❌ Erreur optimisation: $file\n";
-                $stats['errors']++;
-            }
-        }
-    }
-
-    return $stats;
-}
-
-// Fonction de génération WebP
-function generateWebP($sourceDir) {
-    $stats = ['generated' => 0, 'errors' => 0];
-
-    if (!is_dir($sourceDir)) return $stats;
-
-    $files = scandir($sourceDir);
     foreach ($files as $file) {
         if ($file === '.' || $file === '..') continue;
 
-        $sourcePath = $sourceDir . $file;
-        if (!is_file($sourcePath)) continue;
-
-        $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-        if (!in_array($extension, ['jpg', 'jpeg', 'png'])) continue;
-
-        $webpPath = $sourceDir . pathinfo($file, PATHINFO_FILENAME) . '.webp';
-
-        // Vérifier si WebP existe déjà
-        if (file_exists($webpPath)) continue;
-
-        // Générer WebP
-        if (generateWebPFromImage($sourcePath, $webpPath)) {
-            $stats['generated']++;
-            echo "🆕 WebP généré: " . basename($webpPath) . "\n";
-        } else {
-            $stats['errors']++;
-            echo "❌ Erreur WebP: " . basename($sourcePath) . "\n";
+        $filePath = $path . '/' . $file;
+        if (is_file($filePath)) {
+            $totalSize += filesize($filePath);
+        } elseif (is_dir($filePath)) {
+            $totalSize += getDirectorySize($filePath);
         }
     }
 
-    return $stats;
+    return $totalSize;
 }
 
-function generateWebPFromImage($source, $destination) {
-    list($width, $height, $type) = getimagesize($source);
+// Script principal
+echo "🚀 Démarrage de l'optimisation des images FRLimousine...\n\n";
 
-    switch ($type) {
-        case IMAGETYPE_JPEG:
-            $image = imagecreatefromjpeg($source);
-            break;
-        case IMAGETYPE_PNG:
-            $image = imagecreatefrompng($source);
-            break;
-        default:
-            return false;
+$totalOriginalSize = 0;
+$totalOptimizedSize = 0;
+$processedCount = 0;
+
+foreach ($sourceDirs as $dir) {
+    if (!is_dir($dir)) {
+        echo "Dossier introuvable: $dir\n";
+        continue;
     }
 
-    // Sauvegarder en WebP avec qualité optimisée
-    $result = imagewebp($image, $destination, 85);
+    echo "Traitement du dossier: $dir\n";
 
-    imagedestroy($image);
-    return $result;
+    // Créer le dossier d'images optimisées
+    $optimizedDir = 'images/optimized_' . basename($dir);
+
+    if (!is_dir($optimizedDir)) {
+        mkdir($optimizedDir, 0755, true);
+    }
+
+    $files = scandir($dir);
+
+    foreach ($files as $file) {
+        if ($file === '.' || $file === '..') continue;
+
+        $sourcePath = $dir . '/' . $file;
+
+        if (is_file($sourcePath) && preg_match('/\.(jpg|jpeg|png)$/i', $file)) {
+            $destinationPath = $optimizedDir . '/' . $file;
+
+            $originalSize = filesize($sourcePath);
+
+            echo "  Optimisation: $file (" . round($originalSize / 1024 / 1024, 2) . " MB)";
+
+            if (optimizeImage($sourcePath, $destinationPath, $maxWidth, $maxHeight, $quality)) {
+                $optimizedSize = filesize($destinationPath);
+                $savings = $originalSize - $optimizedSize;
+                $savingsPercent = round(($savings / $originalSize) * 100, 1);
+
+                echo " → " . round($optimizedSize / 1024 / 1024, 2) . " MB (économisé: {$savingsPercent}%)\n";
+
+                $totalOriginalSize += $originalSize;
+                $totalOptimizedSize += $optimizedSize;
+                $processedCount++;
+            } else {
+                echo " → ÉCHEC\n";
+            }
+        }
+    }
+    echo "\n";
 }
 
-// Exécution de l'optimisation
-echo "🚗 Optimisation des images FRLimousine\n";
-echo "========================================\n\n";
+// Résultats finaux
+$totalSavings = $totalOriginalSize - $totalOptimizedSize;
+$totalSavingsPercent = round(($totalSavings / $totalOriginalSize) * 100, 1);
 
-// Optimisation des images existantes
-echo "📷 Étape 1: Redimensionnement et compression...\n";
-$optimizationStats = optimizeImages($sourceDirs, $quality, $maxWidth, $maxHeight);
+echo "📊 RÉSUMÉ DE L'OPTIMISATION:\n";
+echo "Images traitées: $processedCount\n";
+echo "Taille originale totale: " . round($totalOriginalSize / 1024 / 1024, 2) . " MB\n";
+echo "Taille optimisée totale: " . round($totalOptimizedSize / 1024 / 1024, 2) . " MB\n";
+echo "Espace économisé: " . round($totalSavings / 1024 / 1024, 2) . " MB ({$totalSavingsPercent}%)\n";
+echo "\n✅ Optimisation terminée!\n";
 
-// Génération des WebP
-echo "\n🌐 Étape 2: Génération des images WebP...\n";
-$webpStats = generateWebP('images/2022/');
-
-// Résumé
-echo "\n📊 RAPPORT D'OPTIMISATION\n";
-echo "========================\n";
-echo "Images traitées: " . $optimizationStats['processed'] . "\n";
-echo "Images WebP générées: " . $webpStats['generated'] . "\n";
-echo "Espace économisé: " . round($optimizationStats['saved_bytes'] / 1024, 1) . " KB\n";
-echo "Erreurs: " . ($optimizationStats['errors'] + $webpStats['errors']) . "\n";
-
-$totalSavings = round($optimizationStats['saved_bytes'] / 1024, 1);
-if ($totalSavings > 0) {
-    echo "\n✅ Optimisation réussie ! Économies réalisées: ${totalSavings} KB\n";
-    echo "💡 Votre site se chargera plus rapidement avec ces images optimisées.\n";
-} else {
-    echo "\n⚠️ Aucune économie réalisée. Vérifiez les paramètres d'optimisation.\n";
+// Instructions pour remplacer les images dans le HTML
+echo "\n📝 PROCHAINES ÉTAPES:\n";
+echo "1. Remplacez les chemins d'images dans galerie.html:\n";
+foreach ($sourceDirs as $dir) {
+    $optimizedDir = 'images/optimized_' . basename($dir);
+    echo "   Remplacez '$dir/' par '$optimizedDir/'\n";
 }
-
-// Conseils finaux
-echo "\n🔧 PROCHAINES ÉTAPES RECOMMANDÉES:\n";
-echo "1. Téléversez les images optimisées sur votre serveur OVH\n";
-echo "2. Utilisez le fichier .htaccess-optimisation pour activer la compression\n";
-echo "3. Testez les performances avec Google PageSpeed Insights\n";
-echo "4. Activez le lazy loading dans votre HTML\n";
-echo "5. Configurez un CDN pour des performances optimales\n";
-
-echo "\n🎯 Objectif atteint: Site plus rapide et mieux référencé !\n";
+echo "\n2. Les images optimisées sont dans les dossiers 'images/optimized_*'\n";
+echo "3. Testez le site pour vérifier la qualité des images\n";
 ?>
