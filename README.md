@@ -57,28 +57,6 @@ Site web professionnel pour une entreprise de location de limousines de luxe, in
 ├── images/               # Images des véhicules
 └── pdfs/                 # Documents PDF
 ```
-
-## Installation et déploiement
-
-### Prérequis
-- Serveur web Apache
-- PHP 7.4 ou supérieur
-- Module `mod_rewrite` activé
-
-### Installation
-1. Cloner le repository :
-   ```bash
-   git clone https://github.com/Ayoub-FARKH/frlimousine.git
-   cd frlimousine
-   ```
-
-2. Déployer sur le serveur OVH :
-   - Uploader les fichiers via FTP
-   - S'assurer que `.htaccess` est présent à la racine
-
-3. Configuration automatique :
-   - Les scripts de sécurité et performance se configurent automatiquement
-
 ## Scripts disponibles
 
 - `monitor.php` - Surveillance de l'état du site
