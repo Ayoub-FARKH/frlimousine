@@ -579,7 +579,7 @@ body.menu-open {
 .fleet-carousel {
 	position: relative;
 	width: 100%;
-	padding: 0 50px; /* Espace pour les boutons de navigation */
+	padding: 0 60px; /* Espace pour les boutons de navigation */
 }
 
 .carousel-container {
@@ -633,6 +633,7 @@ body.menu-open {
     transition: all 0.3s ease;
     z-index: 10;
     box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    margin: 0 8px; /* Ajouter une marge pour éloigner des bords */
 }
 
 .carousel-btn:hover {
@@ -644,8 +645,12 @@ body.menu-open {
 	transform: translateY(-50%) scale(0.95);
 }
 
-.carousel-prev { left: 12px; }
-.carousel-next { right: 12px; }
+.carousel-prev { left: -15px; }
+.carousel-next { right: -15px; }
+
+/* Position spécifique pour les flèches de la flotte */
+.fleet-carousel .carousel-prev { left: -18px; }
+.fleet-carousel .carousel-next { right: -18px; }
 
 .carousel-btn i { font-size: 1.1rem; }
 
@@ -680,7 +685,7 @@ body.menu-open {
 .testimonials-carousel {
 	position: relative;
 	width: 100%;
-	padding: 0 50px;
+	padding: 0 60px;
 }
 
 .testimonials-carousel .carousel-container {
@@ -741,6 +746,7 @@ body.menu-open {
     border: 2px solid rgba(0, 0, 0, 0.7);
     color: #ffffff;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    margin: 0 8px; /* Ajouter une marge pour éloigner des bords */
 }
 
 .pricing-carousel .carousel-btn:hover {
@@ -770,7 +776,7 @@ body.menu-open {
 .pricing-carousel {
 	position: relative;
 	width: 100%;
-	padding: 0 50px;
+	padding: 0 60px;
 }
 
 .pricing-carousel .carousel-container {
@@ -778,25 +784,7 @@ body.menu-open {
 	width: 100%;
 }
 
-/* Indications de débordement aux bords */
-.carousel-container::before,
-.carousel-container::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    width: 48px;
-    height: 100%;
-    z-index: 5;
-    pointer-events: none;
-}
-.carousel-container::before {
-    left: 0;
-    background: linear-gradient(90deg, rgba(0,0,0,0.12), rgba(0,0,0,0));
-}
-.carousel-container::after {
-    right: 0;
-    background: linear-gradient(270deg, rgba(0,0,0,0.12), rgba(0,0,0,0));
-}
+/* Indications de débordement aux bords - supprimées */
 
 .pricing-carousel .carousel-wrapper {
 	display: flex;
@@ -821,11 +809,11 @@ body.menu-open {
 @media screen and (max-width: 768px) {
 	.fleet-carousel,
 	.pricing-carousel {
-		padding: 0 20px;
+		padding: 0 30px;
 	}
-	
+
 	.testimonials-carousel {
-		padding: 0 20px;
+		padding: 0 30px;
 	}
 	
     /* Masquer les flèches sur mobile pour éviter tout débordement */
@@ -1676,10 +1664,11 @@ body.menu-open {
 
 .footer-content {
 	display: grid;
-	grid-template-columns: 1fr 3fr;
+	grid-template-columns: 1fr 1fr;
 	gap: 4rem;
 	margin-bottom: 3rem;
-	align-items: stretch; /* Colonnes étirées pour même hauteur */
+	align-items: center; /* Centrer verticalement */
+	justify-items: center; /* Centrer horizontalement */
 }
 
 .footer-brand h3 {
@@ -1735,7 +1724,7 @@ body.menu-open {
 
 .footer-links {
 	display: grid;
-	grid-template-columns: repeat(4, 1fr);
+	grid-template-columns: 1fr;
 	gap: 2rem;
 	align-items: start; /* Aligner le contenu en haut */
 	justify-items: stretch; /* Étirer les colonnes uniformément */
@@ -2171,7 +2160,7 @@ body.menu-open {
 			.fleet-carousel,
 			.testimonials-carousel,
 			.pricing-carousel {
-				padding: 0 10px;
+				padding: 0 20px;
 			}
 		}
 		/* Éviter le zoom automatique sur les inputs iOS */
@@ -2731,8 +2720,10 @@ body.menu-open {
 	}
 
 	.footer-content {
-		grid-template-columns: 1fr 2fr;
+		grid-template-columns: 1fr 1fr;
 		gap: 3rem;
+		align-items: center;
+		justify-items: center;
 	}
 
 	.footer-links {
@@ -2776,12 +2767,14 @@ body.menu-open {
 	}
 
 	.footer-content {
-		grid-template-columns: 1fr;
+		grid-template-columns: 1fr 1fr;
 		gap: 2rem;
+		align-items: center;
+		justify-items: center;
 	}
 
 	.footer-links {
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: 1fr;
 		gap: 1.5rem;
 		align-items: start;
 		min-height: 160px;
@@ -2949,12 +2942,14 @@ body.menu-open {
 		grid-template-columns: 1fr;
 		gap: 1.5rem;
 		text-align: center;
+		justify-items: center;
 	}
 
 	.footer-column {
 		align-items: center;
 		text-align: center;
 		width: 100%;
+		justify-items: center;
 	}
 
 	.footer-column:last-child {
