@@ -1,0 +1,91 @@
+# Robots.txt pour FRLimousine - Location de limousines de luxe à Paris
+# Créé le 30 octobre 2025
+
+User-agent: *
+Allow: /
+
+# Pages principales à indexer en priorité
+Allow: /index.html
+Allow: /galerie.html
+Allow: /mentions-legales.html
+
+# Interdire l'indexation des dossiers sensibles
+Disallow: /assets/js/
+Disallow: /assets/css/
+Disallow: /images/
+Disallow: /pdfs/
+Disallow: /receive-pdf.php
+Disallow: /monitor.php
+Disallow: /security.php
+Disallow: /.htaccess
+
+# Interdire les fichiers temporaires et de backup
+Disallow: /*.bak
+Disallow: /*.tmp
+Disallow: /*.old
+Disallow: /*~
+
+# Interdire les répertoires de développement
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /admin/
+Disallow: /private/
+
+# Crawl-delay pour éviter la surcharge du serveur
+Crawl-delay: 1
+
+# Sitemap pour aider les moteurs de recherche
+Sitemap: https://frlimousine.vercel.app/sitemap.xml
+
+# Règles spécifiques pour les principaux moteurs de recherche
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 2
+
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 5
+
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 2
+
+# Règles pour les bots d'images
+User-agent: Googlebot-Image
+Allow: /images/
+Allow: /galerie.html
+
+# Règles pour les bots mobiles
+User-agent: Googlebot-Mobile
+Allow: /
+
+# Interdire les bots malveillants connus
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+# Host principal
+Host: frlimousine.vercel.app
+
+# Contact
+# Contact: contact@frlimousine.com

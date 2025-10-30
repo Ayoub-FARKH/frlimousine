@@ -600,35 +600,42 @@ function initSmoothScrolling() {
 // ============================================
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialiser les fonctionnalités essentielles uniquement
-    initSmoothScrolling();
-    initBurgerMenu();
-    // Initialisation des carrousels avec la fonction générique
-    initCarousel('.fleet-carousel', { autoplay: true, loop: true });
-    initCarousel('.testimonials-carousel', { autoplay: true, loop: true });
-    initCarousel('.pricing-carousel', { autoplay: true, loop: true });
+    try {
+        // Initialiser les fonctionnalités essentielles uniquement
+        initSmoothScrolling();
+        initBurgerMenu();
 
-    // Écouteurs d'événements pour le formulaire
-    const vehiculeSelect = document.getElementById('vehicule-select');
-    const dureeSelect = document.getElementById('duree-select');
-    const heureDebutInput = document.getElementById('heure-debut-input');
-    const passagersInput = document.getElementById('passagers-input');
+        // Initialisation des carrousels avec la fonction générique
+        initCarousel('.fleet-carousel', { autoplay: true, loop: true });
+        initCarousel('.testimonials-carousel', { autoplay: true, loop: true });
+        initCarousel('.pricing-carousel', { autoplay: true, loop: true });
 
-    if (vehiculeSelect) vehiculeSelect.addEventListener('change', calculatePrice);
-    if (dureeSelect) dureeSelect.addEventListener('change', calculatePrice);
-    if (dureeSelect) dureeSelect.addEventListener('change', calculateEndTime);
-    if (heureDebutInput) heureDebutInput.addEventListener('change', calculateEndTime);
-    if (passagersInput) passagersInput.addEventListener('change', validatePassagers);
+        // Écouteurs d'événements pour le formulaire
+        const vehiculeSelect = document.getElementById('vehicule-select');
+        const dureeSelect = document.getElementById('duree-select');
+        const heureDebutInput = document.getElementById('heure-debut-input');
+        const passagersInput = document.getElementById('passagers-input');
 
-    // Écouteurs pour les options
-    document.querySelectorAll('input[name="options[]"]').forEach(option => {
-        option.addEventListener('change', calculatePrice);
-    });
+        if (vehiculeSelect) vehiculeSelect.addEventListener('change', calculatePrice);
+        if (dureeSelect) dureeSelect.addEventListener('change', calculatePrice);
+        if (dureeSelect) dureeSelect.addEventListener('change', calculateEndTime);
+        if (heureDebutInput) heureDebutInput.addEventListener('change', calculateEndTime);
+        if (passagersInput) passagersInput.addEventListener('change', validatePassagers);
 
-    // Retirer la classe preload après chargement
-    window.addEventListener('load', function() {
+        // Écouteurs pour les options
+        document.querySelectorAll('input[name="options[]"]').forEach(option => {
+            option.addEventListener('change', calculatePrice);
+        });
+
+        // Retirer la classe preload après chargement
+        window.addEventListener('load', function() {
+            document.body.classList.remove('is-preload');
+        });
+
+        console.log('🚀 FRLimousine website loaded - Optimisé & Performant');
+    } catch (error) {
+        console.error('Erreur lors de l\'initialisation du site:', error);
+        // Fallback : retirer la classe preload même en cas d'erreur
         document.body.classList.remove('is-preload');
-    });
-
-    console.log('🚀 FRLimousine website loaded - Optimisé & Performant');
+    }
 });

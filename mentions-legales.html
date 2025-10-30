@@ -3,48 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://frlimousine.ovh;">
     <title>Mentions Légales - HOVIK TRANSVOYAGE</title>
-    <meta name="description" content="Mentions légales, CGV, politique de confidentialité et cookies de HOVIK TRANSVOYAGE - Transport routier de voyageurs">
+    <meta name="description" content="Mentions légales complètes, CGV, politique de confidentialité RGPD et cookies de HOVIK TRANSVOYAGE - Transport routier de voyageurs à Paris">
+    <link rel="stylesheet" href="assets/css/main_clean.css" />
+    <link rel="stylesheet" href="assets/css/frlimousine.css">
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            color: #333;
-            background: #f9f9f9;
-        }
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
+        /* Styles pour les sections en boîtes blanches */
+        .legal-section {
             background: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            color: #2c2c2c;
         }
-        header {
-            background: #2c3e50;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        h1, h2, h3, h4 {
-            color: #2c3e50;
-        }
-        h1 { font-size: 2.5em; margin-bottom: 10px; }
-        h2 { font-size: 2em; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-top: 40px; }
-        h3 { font-size: 1.5em; margin-top: 30px; }
-        h4 { font-size: 1.2em; margin-top: 20px; }
         .legal-notice {
-            background: #ecf0f1;
-            padding: 20px;
-            border-left: 4px solid #3498db;
+            background: white;
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
             margin: 20px 0;
+            color: #2c2c2c;
         }
         .toc {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 5px;
+            background: white;
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
             margin: 20px 0;
+            color: #2c2c2c;
         }
         .toc ul {
             list-style: none;
@@ -94,40 +83,55 @@
             font-size: 0.9em;
             font-style: italic;
         }
-        footer {
-            background: #34495e;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
+        .legal-section h2,
+        .legal-section h3,
+        .legal-section h4,
+        .legal-notice h3,
+        .toc h3 {
+            color: #2c2c2c;
         }
-        footer a {
-            color: #3498db;
-            text-decoration: none;
-            margin: 0 10px;
-        }
-        footer a:hover {
-            text-decoration: underline;
-        }
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            h1 { font-size: 2em; }
-            h2 { font-size: 1.5em; }
+        .legal-section p,
+        .legal-section ul,
+        .legal-section li,
+        .legal-notice p,
+        .toc p,
+        .toc ul,
+        .toc li {
+            color: #2c2c2c;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
+<!-- Header -->
+<header id="header" class="header">
+    <div class="header-container">
+        <div class="logo">
+            <h1><a href="index.html">FRLimousine</a></h1>
+        </div>
 
-<header>
-    <h1>Mentions Légales & Conditions</h1>
-    <p>HOVIK TRANSVOYAGE - Transport routier de voyageurs</p>
+        <nav id="nav" class="nav">
+            <button class="burger-menu" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span class="burger-bar"></span>
+                <span class="burger-bar"></span>
+                <span class="burger-bar"></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Retour à l'accueil</a></li>
+            </ul>
+        </nav>
+    </div>
 </header>
 
-<div class="legal-notice">
+<main id="main">
+    <section class="about" style="padding: 6rem 0;">
+        <div class="container">
+            <div class="section-header">
+                <h1>Mentions Légales & Conditions</h1>
+                <p>HOVIK TRANSVOYAGE - Transport routier de voyageurs</p>
+            </div>
+
+<section class="legal-section">
     <h3>Informations légales de l'entreprise</h3>
     <p><strong>Dénomination sociale :</strong> HOVIK TRANSVOYAGE</p>
     <p><strong>Forme juridique :</strong> SARL</p>
@@ -144,12 +148,12 @@
     <p><strong>Licence/Autorisation transport :</strong> [Numéro et autorité - DREAL/Ministère]</p>
     <p><strong>Assurance responsabilité civile professionnelle :</strong> [Compagnie, n° police, couverture géographique]</p>
     <p><strong>Couverture territoriale :</strong> Paris / Île-de-France</p>
-</div>
+</section>
 
-<nav class="toc">
+<section class="legal-section">
     <h3>Sommaire</h3>
     <ul>
-        <li><a href="#mentions-legales">Mentions légales</a></li>
+        <li><a href="#mentions-legales-section">Mentions légales</a></li>
         <li><a href="#cgv">Conditions Générales de Vente</a></li>
         <li><a href="#confidentialite">Politique de confidentialité</a></li>
         <li><a href="#cookies">Politique des cookies</a></li>
@@ -158,9 +162,9 @@
         <li><a href="#mediation">Médiation de la consommation</a></li>
         <li><a href="#odr">Plateforme ODR</a></li>
     </ul>
-</nav>
+</section>
 
-<section id="mentions-legales">
+<section id="mentions-legales-section" class="legal-section">
     <h2>Mentions légales</h2>
     <p class="update-date">Dernière mise à jour : 30 octobre 2025</p>
 
@@ -197,7 +201,7 @@
     <p>HOVIK TRANSVOYAGE s'engage à rendre son site internet accessible conformément aux dispositions de la loi n° 2005-102 du 11 février 2005. Pour toute difficulté d'accès au contenu ou pour toute demande spécifique, contactez-nous à [email d'accessibilité].</p>
 </section>
 
-<section id="cgv">
+<section id="cgv" class="legal-section">
     <h2>Conditions Générales de Vente</h2>
     <p class="update-date">Dernière mise à jour : 30 octobre 2025</p>
 
@@ -304,7 +308,7 @@
     <p>Les présentes CGV entrent en vigueur le 30 octobre 2025 et annulent toutes versions antérieures.</p>
 </section>
 
-<section id="confidentialite">
+<section id="confidentialite" class="legal-section">
     <h2>Politique de confidentialité</h2>
     <p class="update-date">Dernière mise à jour : 30 octobre 2025</p>
 
@@ -379,7 +383,7 @@
     <p>Aucun traitement spécifique des données de mineurs n'est effectué sans l'accord du responsable légal.</p>
 </section>
 
-<section id="cookies">
+<section id="cookies" class="legal-section">
     <h2>Politique des cookies</h2>
     <p class="update-date">Dernière mise à jour : 30 octobre 2025</p>
 
@@ -435,7 +439,7 @@
     <p>Le consentement peut être retiré à tout moment sans justification. Les cookies déjà déposés continueront de fonctionner jusqu'à leur expiration.</p>
 </section>
 
-<section id="accessibilite">
+<section id="accessibilite" class="legal-section">
     <h2>Accessibilité</h2>
     <p class="update-date">Dernière mise à jour : 30 octobre 2025</p>
 
@@ -454,7 +458,7 @@
     <p>Pour toute question relative à l'accessibilité ou pour signaler une difficulté, contactez-nous à [email accessibilité].</p>
 </section>
 
-<section id="securite-paiements">
+<section id="securite-paiements" class="legal-section">
     <h2>Sécurité des paiements</h2>
     <p class="update-date">Dernière mise à jour : 30 octobre 2025</p>
 
@@ -471,7 +475,7 @@
     <p>Les données bancaires ne sont jamais stockées sur nos serveurs. Le paiement est traité par [nom du PSP] qui garantit la sécurité des transactions.</p>
 </section>
 
-<section id="mediation">
+<section id="mediation" class="legal-section">
     <h2>Médiation de la consommation</h2>
     <p class="update-date">Dernière mise à jour : 30 octobre 2025</p>
 
@@ -486,7 +490,7 @@
     <p>Après une réclamation écrite restée sans réponse satisfaisante sous 60 jours, le consommateur peut saisir gratuitement le médiateur. Le délai pour saisir le médiateur est d'un an à compter de la réclamation initiale.</p>
 </section>
 
-<section id="odr">
+<section id="odr" class="legal-section">
     <h2>Plateforme européenne ODR</h2>
     <p class="update-date">Dernière mise à jour : 30 octobre 2025</p>
 
@@ -497,7 +501,9 @@
     <p>Accès à la plateforme : <a href="https://ec.europa.eu/consumers/odr/" target="_blank">https://ec.europa.eu/consumers/odr/</a></p>
 </section>
 
-</div>
+        </div>
+    </section>
+</main>
 
 <div class="cookie-banner" id="cookie-banner">
     <h3>🍪 Gestion des cookies</h3>
@@ -509,19 +515,52 @@
     </div>
 </div>
 
-<footer>
-    <p>&copy; 2025 HOVIK TRANSVOYAGE - Tous droits réservés</p>
-    <div>
-        <a href="#mentions-legales">Mentions légales</a> |
-        <a href="#cgv">CGV</a> |
-        <a href="#confidentialite">Confidentialité</a> |
-        <a href="#cookies">Cookies</a> |
-        <a href="#mediation">Médiation</a> |
-        <a href="#odr">ODR</a> |
-        <a href="#" onclick="showCookieBanner()">Gérer mes cookies</a>
+<!-- Footer -->
+<footer id="footer" class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>FRLimousine</h3>
+                <p>Entreprise de location de limousines de luxe à Paris<br>Service professionnel depuis 2001</p>
+                <div class="footer-social">
+                <a href="https://www.instagram.com/frlimousine_/" class="social-link" aria-label="Suivez-nous sur Instagram (ouvre dans un nouvel onglet)" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-instagram"></i>
+                    <span class="sr-only">Instagram FRLimousine</span>
+                </a>
+                    <a href="mailto:contact@transvoyage.fr" class="social-link" aria-label="Nous envoyer un email">
+                        <i class="fas fa-envelope"></i>
+                        <span class="sr-only">Email de contact</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Informations</h4>
+                    <ul>
+                        <li><a href="#about">À propos</a></li>
+                        <li><a href="#testimonials">Avis clients</a></li>
+                        <li><a href="#pricing">Tarifs</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#map">Localisation</a></li>
+                        <li><a href="mentions-legales.html">Mentions légales</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 FRLimousine. Tous droits réservés.</p>
+            <div class="footer-badges">
+                <span class="badge">Assuré & Agréé</span>
+                <span class="badge">Service Certifié</span>
+                <span class="badge">Satisfaction Garantie</span>
+            </div>
+        </div>
     </div>
 </footer>
 
+<script src="assets/js/frlimousine-optimized.js" defer></script>
 <script>
 function acceptAllCookies() {
     document.getElementById('cookie-banner').style.display = 'none';
@@ -546,8 +585,24 @@ function showCookieBanner() {
 
 // Vérifier le consentement au chargement
 document.addEventListener('DOMContentLoaded', function() {
-    const consent = localStorage.getItem('cookieConsent');
-    if (!consent) {
+    // Vérifier si localStorage est disponible
+    let storageAvailable = false;
+    try {
+        const test = '__storage_test__';
+        localStorage.setItem(test, test);
+        localStorage.removeItem(test);
+        storageAvailable = true;
+    } catch (e) {
+        console.warn('localStorage non disponible');
+    }
+
+    if (storageAvailable) {
+        const consent = localStorage.getItem('cookieConsent');
+        if (!consent) {
+            document.getElementById('cookie-banner').classList.add('show');
+        }
+    } else {
+        // Fallback si localStorage non disponible
         document.getElementById('cookie-banner').classList.add('show');
     }
 });
