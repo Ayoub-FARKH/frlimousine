@@ -41,12 +41,12 @@ function initBurgerMenu() {
 // ============================================
 
 const VEHICULE_PRICES = {
-    'mustang-rouge': 90,
-    'mustang-bleu': 95,
-    'excalibur': 110,
+    'mustang-rouge': 250,
+    'mustang-bleu': 250,
+    'excalibur': 250,
     'lincoln-limousine': 120,
-    'hummer-limousine': 150,
-    'mercedes-viano': 85,
+    'hummer-limousine': 280,
+    'mercedes-viano': 50,
 };
 
 const OPTIONS_PRICES = {
@@ -64,12 +64,12 @@ const VEHICULE_NAMES = {
 };
 
 const MAX_PASSAGERS = {
-    'mustang-rouge': 4,
-    'mustang-bleu': 4,
-    'excalibur': 4,
-    'mercedes-viano': 8,
+    'mustang-rouge': 3,
+    'mustang-bleu': 3,
+    'excalibur': 2,
+    'mercedes-viano': 7,
     'lincoln-limousine': 8,
-    'hummer-limousine': 12,
+    'hummer-limousine': 8,
 };
 
 // ============================================
