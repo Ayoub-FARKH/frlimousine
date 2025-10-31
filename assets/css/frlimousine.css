@@ -390,6 +390,10 @@ body.menu-open {
 
 .hero-contact {
 	margin-bottom: 2rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	align-items: center;
 }
 
 .contact-button {
@@ -413,6 +417,18 @@ body.menu-open {
 	transform: translateY(-2px);
 }
 
+.contact-button.secondary {
+	background: rgba(255, 255, 255, 0.1);
+	border: 2px solid rgba(255, 255, 255, 0.3);
+	font-size: 1.6rem;
+	padding: 0.9rem 2rem;
+}
+
+.contact-button.secondary:hover {
+	background: rgba(255, 255, 255, 0.2);
+	border-color: rgba(255, 255, 255, 0.5);
+}
+
 .contact-button i {
 	font-size: 1.5rem;
 }
@@ -420,7 +436,7 @@ body.menu-open {
 /* About Section */
 
 .about {
-	padding: 6rem 0;
+	padding: 4rem 0;
 	background: #ffffff;
 }
 
@@ -505,7 +521,7 @@ body.menu-open {
     ============================================ */
 
 .services {
-	padding: 6rem 0;
+	padding: 4rem 0;
 	background: #f8f8f8;
 }
 
@@ -571,7 +587,7 @@ body.menu-open {
    ============================================ */
 
 .fleet {
-	padding: 6rem 0;
+	padding: 4rem 0;
 	background: #2c2c2c;
 	color: white;
 }
@@ -658,8 +674,10 @@ body.menu-open {
 .carousel-pagination {
 	display: flex;
 	justify-content: center;
-	gap: 10px;
-	margin-top: 2rem;
+	gap: 8px;
+	margin-top: 0rem;
+	position: relative;
+	bottom: 0;
 }
 
 .carousel-pagination-dot {
@@ -713,6 +731,15 @@ body.menu-open {
 	flex-direction: column;
 }
 
+/* Pagination témoignages - couleur des boutons flèches */
+.testimonials-carousel .carousel-pagination-dot.active {
+	background: rgba(0, 0, 0, 0.6);
+}
+
+.testimonials-carousel .carousel-pagination-dot:hover {
+	background: rgba(0, 0, 0, 0.4);
+}
+
 /* Afficher les boutons de navigation pour les tarifs */
 .pricing-carousel .carousel-btn {
 	display: flex;
@@ -760,16 +787,72 @@ body.menu-open {
     text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
 }
 
+/* Pagination tarifs - couleur des boutons flèches */
+.pricing-carousel .carousel-pagination-dot.active {
+	background: rgba(0, 0, 0, 0.6);
+}
+
+.pricing-carousel .carousel-pagination-dot:hover {
+	background: rgba(0, 0, 0, 0.4);
+}
+
 /* Animations de transition pro pour les slides */
 .carousel-slide {
     opacity: 0;
-    transform: translateX(20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transform: translateX(50px) scale(0.95) rotateY(15deg);
+    filter: blur(2px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: opacity, transform, filter;
+    /* Amélioration pour les navigateurs modernes */
+    backface-visibility: hidden;
+    perspective: 1000px;
 }
 
 .carousel-slide.is-active {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateX(0) scale(1) rotateY(0deg);
+    filter: blur(0px);
+}
+
+/* Animation d'entrée élégante pour les nouveaux slides */
+.carousel-slide.entering {
+    animation: slideInProfessional 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes slideInProfessional {
+    0% {
+        opacity: 0;
+        transform: translateX(100px) scale(0.9) rotateY(20deg);
+        filter: blur(3px);
+    }
+    50% {
+        opacity: 0.7;
+        transform: translateX(25px) scale(0.97) rotateY(5deg);
+        filter: blur(1px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) scale(1) rotateY(0deg);
+        filter: blur(0px);
+    }
+}
+
+/* Animation de sortie élégante */
+.carousel-slide.leaving {
+    animation: slideOutProfessional 0.6s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
+}
+
+@keyframes slideOutProfessional {
+    0% {
+        opacity: 1;
+        transform: translateX(0) scale(1) rotateY(0deg);
+        filter: blur(0px);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50px) scale(0.95) rotateY(-10deg);
+        filter: blur(2px);
+    }
 }
 
 /* Carrousel des tarifs - même style que les témoignages */
@@ -836,36 +919,36 @@ body.menu-open {
 
 	/* Style des flèches pour mobile - discret et compact */
 	.carousel-navigation .carousel-btn {
-		background: rgba(0, 0, 0, 0.6);
-		border: 1px solid rgba(255, 255, 255, 0.15);
-		border-radius: 8px;
-		width: 40px;
-		height: 40px;
+		background: rgba(0, 0, 0, 0.5);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		border-radius: 6px;
+		width: 32px;
+		height: 32px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		color: #ffffff;
 		cursor: pointer;
 		transition: all 0.2s ease;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-		font-size: 0.9rem;
-		opacity: 0.8;
+		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+		font-size: 0.8rem;
+		opacity: 0.7;
 	}
 
 	.carousel-navigation .carousel-btn:hover {
-		background: rgba(0, 0, 0, 0.8);
-		border-color: rgba(255, 255, 255, 0.25);
+		background: rgba(0, 0, 0, 0.7);
+		border-color: rgba(255, 255, 255, 0.2);
 		transform: translateY(-1px);
-		box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
-		opacity: 1;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+		opacity: 0.9;
 	}
 
 	.carousel-navigation .carousel-btn:active {
-		transform: translateY(0) scale(0.95);
+		transform: translateY(0) scale(0.98);
 	}
 
 	.carousel-navigation .carousel-btn i {
-		font-size: 1rem;
+		font-size: 0.9rem;
 	}
 
 	/* Forcer une seule slide visible sur mobile */
@@ -1029,7 +1112,7 @@ body.menu-open {
    ============================================ */
 
 .testimonials {
-	padding: 6rem 0;
+	padding: 4rem 0;
 	background: #f8f8f8;
 }
 
@@ -1116,7 +1199,7 @@ body.menu-open {
    ============================================ */
 
 .pricing {
-	padding: 6rem 0;
+	padding: 4rem 0;
 	background: #ffffff;
 }
 
@@ -1214,7 +1297,7 @@ body.menu-open {
    ============================================ */
 
 .contact {
-	padding: 6rem 0;
+	padding: 4rem 0;
 	background: #f8f8f8;
 }
 
@@ -1911,7 +1994,7 @@ body.menu-open {
    ============================================ */
 
 .map-section {
-	padding: 6rem 0;
+	padding: 4rem 0;
 	background: #f8f8f8;
 }
 
@@ -2695,6 +2778,62 @@ body.menu-open {
 
 
 /* ============================================
+    BACK TO TOP BUTTON
+    ============================================ */
+
+.back-to-top {
+	position: fixed;
+	bottom: 2rem;
+	right: 2rem;
+	width: 50px;
+	height: 50px;
+	background: rgba(0, 0, 0, 0.8);
+	border: 2px solid rgba(255, 255, 255, 0.2);
+	border-radius: 50%;
+	color: white;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+	opacity: 0;
+	transform: translateY(20px) scale(0.8);
+}
+
+.back-to-top.show {
+	opacity: 1;
+	transform: translateY(0) scale(1);
+}
+
+.back-to-top:hover {
+	background: rgba(0, 0, 0, 0.9);
+	border-color: rgba(255, 255, 255, 0.4);
+	transform: translateY(-2px) scale(1.05);
+	box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+}
+
+.back-to-top i {
+	font-size: 1.2rem;
+	transition: transform 0.3s ease;
+}
+
+.back-to-top:hover i {
+	transform: translateY(-1px);
+}
+
+/* Mobile responsive */
+@media screen and (max-width: 768px) {
+	.back-to-top {
+		bottom: 1.5rem;
+		right: 1.5rem;
+		width: 45px;
+		height: 45px;
+	}
+}
+
+/* ============================================
     RESPONSIVE DESIGN - Mobile First
     ============================================ */
 
@@ -3258,7 +3397,7 @@ body.menu-open {
 @media screen and (max-width: 768px) {
 	.header-container { padding: 0.7rem 0.9rem; }
 	.logo h1 { font-size: 1.5rem; }
-	.about, .services, .fleet, .testimonials, .pricing, .contact, .map-section { padding: 3rem 0; }
+	.about, .services, .fleet, .testimonials, .pricing, .contact, .map-section { padding: 2rem 0; }
 	.services-grid, .pricing-grid, .footer-links { gap: 1.1rem; }
 	.service-card, .vehicle-card, .pricing-card { padding: 1.4rem 1.1rem; }
 	.contact-form { padding: 1.6rem 1.2rem; }
@@ -3266,12 +3405,18 @@ body.menu-open {
 	.form-group { min-height: 68px; }
 	.form-group input, .form-group select, .form-group textarea { height: 46px; padding: 0.8rem; }
 	.submit-btn, .btn-secondary { padding: 0.9rem 1.2rem; font-size: 0.95rem; }
+	.hero-contact { gap: 0.8rem; }
+	.contact-button { font-size: 1.4rem; padding: 0.8rem 1.5rem; }
+	.contact-button.secondary { font-size: 1.3rem; padding: 0.7rem 1.5rem; }
 }
 
 @media screen and (max-width: 480px) {
 	.header-container { padding: 0.6rem 0.8rem; }
 	.logo h1 { font-size: 1.4rem; }
-	.about, .services, .fleet, .testimonials, .pricing, .contact, .map-section { padding: 2.5rem 0; }
+	.about, .services, .fleet, .testimonials, .pricing, .contact, .map-section { padding: 1.5rem 0; }
+	.hero-contact { gap: 0.6rem; }
+	.contact-button { font-size: 1.2rem; padding: 0.7rem 1.2rem; }
+	.contact-button.secondary { font-size: 1.1rem; padding: 0.6rem 1.2rem; }
 	.service-card, .vehicle-card, .pricing-card { padding: 1.2rem 1rem; }
 	.contact-form { padding: 1.3rem 1rem; }
 	.form-row { gap: 0.5rem; }
@@ -3281,10 +3426,13 @@ body.menu-open {
 }
 
 @media screen and (max-width: 360px) {
-	.about, .services, .fleet, .testimonials, .pricing, .contact, .map-section { padding: 2rem 0; }
+	.about, .services, .fleet, .testimonials, .pricing, .contact, .map-section { padding: 1rem 0; }
 	.service-card, .vehicle-card, .pricing-card { padding: 1rem 0.9rem; }
 	.contact-form { padding: 1.1rem 0.9rem; }
 	.form-group { min-height: 60px; }
 	.form-group input, .form-group select, .form-group textarea { height: 42px; padding: 0.6rem; }
 	.submit-btn, .btn-secondary { padding: 0.8rem 1rem; font-size: 0.88rem; }
+	.hero-contact { gap: 0.5rem; }
+	.contact-button { font-size: 1.1rem; padding: 0.6rem 1rem; }
+	.contact-button.secondary { font-size: 1rem; padding: 0.5rem 1rem; }
 }

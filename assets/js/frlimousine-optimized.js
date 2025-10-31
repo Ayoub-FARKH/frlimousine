@@ -430,18 +430,30 @@ function initCarousel(selector, options = {}) {
             resetAutoPlay();
         }
 
-        // Animation professionnelle: fade + slide
+        // Animation professionnelle avancée: scale, blur, rotation 3D
         slides.forEach((slide, index) => {
-            slide.style.transition = 'opacity .5s ease, transform .5s ease';
             if (index === currentIndex) {
+                // Slide actif - animation d'entrée
                 slide.style.display = 'flex';
+                slide.classList.remove('leaving');
+                slide.classList.add('entering');
                 requestAnimationFrame(() => {
                     slide.classList.add('is-active');
                 });
             } else {
-                slide.classList.remove('is-active');
-                // après l'animation, masquer
-                setTimeout(() => { if (index !== currentIndex) slide.style.display = 'none'; }, 500);
+                // Slide inactif - animation de sortie
+                if (slide.classList.contains('is-active')) {
+                    slide.classList.remove('is-active');
+                    slide.classList.add('leaving');
+                    // Masquer après l'animation de sortie
+                    setTimeout(() => {
+                        slide.style.display = 'none';
+                        slide.classList.remove('leaving', 'entering');
+                    }, 600);
+                } else {
+                    slide.style.display = 'none';
+                    slide.classList.remove('leaving', 'entering');
+                }
             }
         });
         
@@ -596,6 +608,38 @@ function initSmoothScrolling() {
 }
 
 // ============================================
+// BACK TO TOP BUTTON
+// ============================================
+
+function initBackToTop() {
+    const backToTopBtn = document.getElementById('back-to-top');
+
+    if (!backToTopBtn) return;
+
+    // Afficher/cacher le bouton selon le scroll
+    window.addEventListener('scroll', function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+
+        // Afficher quand on a scrollé plus de 50% de la hauteur de la fenêtre
+        if (scrollTop > windowHeight / 2) {
+            backToTopBtn.classList.add('show');
+        } else {
+            backToTopBtn.classList.remove('show');
+        }
+    });
+
+    // Scroll vers le haut au clic
+    backToTopBtn.addEventListener('click', function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+}
+
+// ============================================
 // INITIALISATION - CODE RÉDUIT
 // ============================================
 
@@ -604,11 +648,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // Initialiser les fonctionnalités essentielles uniquement
         initSmoothScrolling();
         initBurgerMenu();
+        initBackToTop();
 
-        // Initialisation des carrousels avec la fonction générique
-        initCarousel('.fleet-carousel', { autoplay: true, loop: true });
-        initCarousel('.testimonials-carousel', { autoplay: true, loop: true });
-        initCarousel('.pricing-carousel', { autoplay: true, loop: true });
+        // Initialisation des carrousels avec la fonction générique (sans autoplay)
+        initCarousel('.fleet-carousel', { autoplay: false, loop: true });
+        initCarousel('.testimonials-carousel', { autoplay: false, loop: true });
+        initCarousel('.pricing-carousel', { autoplay: false, loop: true });
 
         // Écouteurs d'événements pour le formulaire
         const vehiculeSelect = document.getElementById('vehicule-select');
