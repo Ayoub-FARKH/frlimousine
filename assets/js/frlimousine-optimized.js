@@ -474,33 +474,27 @@ function initCarousel(selector, options = {}) {
             resetAutoPlay();
         }
 
-        // Animation professionnelle avancée: scale, blur, rotation 3D
+        // Animation professionnelle avec transitions élégantes
         slides.forEach((slide, index) => {
             if (index === currentIndex) {
-                // Slide actif - animation d'entrée
+                // Slide entrant - animation d'entrée
                 slide.style.display = 'flex';
+                slide.classList.add('is-active', 'entering');
                 slide.classList.remove('leaving');
-                slide.classList.add('entering');
-                requestAnimationFrame(() => {
-                    slide.classList.add('is-active');
-                });
             } else {
-                // Slide inactif - animation de sortie
-                if (slide.classList.contains('is-active')) {
-                    slide.classList.remove('is-active');
-                    slide.classList.add('leaving');
-                    // Masquer après l'animation de sortie
-                    setTimeout(() => {
+                // Slide sortant - animation de sortie
+                slide.classList.remove('is-active', 'entering');
+                slide.classList.add('leaving');
+                // Masquer après l'animation
+                setTimeout(() => {
+                    if (!slide.classList.contains('is-active')) {
                         slide.style.display = 'none';
-                        slide.classList.remove('leaving', 'entering');
-                    }, 600);
-                } else {
-                    slide.style.display = 'none';
-                    slide.classList.remove('leaving', 'entering');
-                }
+                        slide.classList.remove('leaving');
+                    }
+                }, 600); // Durée de l'animation de sortie
             }
         });
-        
+
         // Mettre à jour la pagination
         const dots = pagination.querySelectorAll('.carousel-pagination-dot');
         dots.forEach((dot, index) => {
@@ -646,8 +640,26 @@ function initCarousel(selector, options = {}) {
         }, 250);
     });
 
-    // Initialisation
-    updateCarousel();
+    // Initialisation - Afficher immédiatement le premier slide
+    slides.forEach((slide, index) => {
+        if (index === 0) {
+            slide.style.display = 'flex';
+            slide.classList.add('is-active');
+        } else {
+            slide.style.display = 'none';
+        }
+    });
+
+    // Mettre à jour la pagination initiale
+    const dots = pagination.querySelectorAll('.carousel-pagination-dot');
+    dots.forEach((dot, index) => {
+        if (index === 0) {
+            dot.classList.add('active');
+        } else {
+            dot.classList.remove('active');
+        }
+    });
+
     if (options.autoplay) {
         startAutoPlay();
     }
@@ -840,10 +852,10 @@ document.addEventListener('DOMContentLoaded', function() {
         initHapticFeedback();
         registerServiceWorker();
 
-        // Initialisation des carrousels avec la fonction générique (sans autoplay)
-        initCarousel('.fleet-carousel', { autoplay: false, loop: true });
-        initCarousel('.testimonials-carousel', { autoplay: false, loop: true });
-        initCarousel('.pricing-carousel', { autoplay: false, loop: true });
+        // Initialisation des carrousels avec la fonction générique (avec autoplay)
+        initCarousel('.fleet-carousel', { autoplay: true, loop: true });
+        initCarousel('.testimonials-carousel', { autoplay: true, loop: true });
+        initCarousel('.pricing-carousel', { autoplay: true, loop: true });
 
         // Écouteurs d'événements pour le formulaire
         const vehiculeSelect = document.getElementById('vehicule-select');
@@ -860,6 +872,23 @@ document.addEventListener('DOMContentLoaded', function() {
         // Écouteurs pour les options
         document.querySelectorAll('input[name="options[]"]').forEach(option => {
             option.addEventListener('change', calculatePrice);
+        });
+
+        // Écouteurs pour les boutons de réservation (auto-remplissage)
+        document.querySelectorAll('.pricing-btn[data-vehicule]').forEach(btn => {
+            btn.addEventListener('click', function(event) {
+                const vehiculeValue = this.getAttribute('data-vehicule');
+                if (vehiculeValue) {
+                    const vehiculeSelect = document.getElementById('vehicule-select');
+                    if (vehiculeSelect) {
+                        vehiculeSelect.value = vehiculeValue;
+                        // Déclencher l'événement change pour mettre à jour le calcul du prix
+                        vehiculeSelect.dispatchEvent(new Event('change'));
+                        // Faire défiler vers le formulaire
+                        document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
         });
 
         // Retirer la classe preload après chargement
