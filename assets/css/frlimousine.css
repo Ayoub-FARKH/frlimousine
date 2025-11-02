@@ -409,45 +409,36 @@ body.menu-open {
 .hero-contact {
 	margin-bottom: 2rem;
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	gap: 1rem;
 	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
 }
 
-.contact-button {
+.hero-icon {
 	display: inline-flex;
 	align-items: center;
-	gap: 1rem;
-	font-size: 1.8rem;
-	font-weight: 700;
-	padding: 1rem 2rem;
+	justify-content: center;
+	width: 60px;
+	height: 60px;
 	background: rgba(255, 255, 255, 0.1);
 	border: 2px solid rgba(255, 255, 255, 0.3);
-	border-radius: 50px;
+	border-radius: 50%;
 	color: white;
 	text-decoration: none;
 	transition: all 0.3s ease;
+	font-size: 1.5rem;
 }
 
-.contact-button:hover {
+.hero-icon:hover {
 	background: rgba(255, 255, 255, 0.2);
 	border-color: rgba(255, 255, 255, 0.5);
 	transform: translateY(-2px);
+	box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
 }
 
-.contact-button.secondary {
-	background: rgba(255, 255, 255, 0.1);
-	border: 2px solid rgba(255, 255, 255, 0.3);
-	font-size: 1.6rem;
-	padding: 0.9rem 2rem;
-}
-
-.contact-button.secondary:hover {
-	background: rgba(255, 255, 255, 0.2);
-	border-color: rgba(255, 255, 255, 0.5);
-}
-
-.contact-button i {
+.hero-icon i {
 	font-size: 1.5rem;
 }
 
@@ -3518,8 +3509,8 @@ img.lazy.loaded {
 	.form-group input, .form-group select, .form-group textarea { height: 46px; padding: 0.8rem; }
 	.submit-btn, .btn-secondary { padding: 0.9rem 1.2rem; font-size: 0.95rem; }
 	.hero-contact { gap: 0.8rem; }
-	.contact-button { font-size: 1.4rem; padding: 0.8rem 1.5rem; }
-	.contact-button.secondary { font-size: 1.3rem; padding: 0.7rem 1.5rem; }
+	.hero-icon { width: 50px; height: 50px; font-size: 1.2rem; }
+	.hero-icon i { font-size: 1.2rem; }
 }
 
 @media screen and (max-width: 480px) {
@@ -3527,8 +3518,8 @@ img.lazy.loaded {
 	.logo h1 { font-size: 1.4rem; }
 	.about, .services, .fleet, .testimonials, .pricing, .contact, .map-section { padding: 1.5rem 0; }
 	.hero-contact { gap: 0.6rem; }
-	.contact-button { font-size: 1.2rem; padding: 0.7rem 1.2rem; }
-	.contact-button.secondary { font-size: 1.1rem; padding: 0.6rem 1.2rem; }
+	.hero-icon { width: 45px; height: 45px; font-size: 1.1rem; }
+	.hero-icon i { font-size: 1.1rem; }
 	.service-card, .vehicle-card, .pricing-card { padding: 1.2rem 1rem; }
 	.contact-form { padding: 1.3rem 1rem; }
 	.form-row { gap: 0.5rem; }
@@ -3545,6 +3536,6 @@ img.lazy.loaded {
 	.form-group input, .form-group select, .form-group textarea { height: 42px; padding: 0.6rem; }
 	.submit-btn, .btn-secondary { padding: 0.8rem 1rem; font-size: 0.88rem; }
 	.hero-contact { gap: 0.5rem; }
-	.contact-button { font-size: 1.1rem; padding: 0.6rem 1rem; }
-	.contact-button.secondary { font-size: 1rem; padding: 0.5rem 1rem; }
+	.hero-icon { width: 40px; height: 40px; font-size: 1rem; }
+	.hero-icon i { font-size: 1rem; }
 }

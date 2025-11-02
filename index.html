@@ -194,13 +194,17 @@
 					<p class="hero-description">Location de Limousines de Luxe à Paris - Service professionnel d'exception depuis 2001</p>
 
 					<div class="hero-contact">
-						<a href="tel:0612940540" class="contact-button">
+						<a href="tel:0612940540" class="hero-icon" aria-label="Appeler">
 							<i class="fas fa-phone"></i>
-							Appeler maintenant
 						</a>
-						<a href="#contact" class="contact-button secondary">
+						<a href="#contact" class="hero-icon" aria-label="Réserver">
 							<i class="fas fa-envelope"></i>
-							Réserver
+						</a>
+						<a href="https://wa.me/33612940540" class="hero-icon" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">
+							<i class="fab fa-whatsapp"></i>
+						</a>
+						<a href="https://www.instagram.com/frlimousine_/" class="hero-icon" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+							<i class="fab fa-instagram"></i>
 						</a>
 					</div>
 				</div>
@@ -232,7 +236,7 @@
 						<div class="service-card">
 							<div class="service-content">
 								<h3>Mariages</h3>
-								<p>Limousines d'exception pour votre cérémonie. Mustang, Excalibur et Lincoln disponibles.</p>
+								<p>Limousines d'exception pour votre cérémonie. Mustang et Excalibur disponibles.</p>
 								<ul class="service-features">
 									<li>Décoration florale sur devis</li>
 									<li>Chauffeur professionnel</li>
@@ -268,18 +272,19 @@
 						<div class="service-card">
 							<div class="service-content">
 								<h3>Soirées Privées</h3>
-								<p>Limousines de luxe pour anniversaires et événements privés.</p>
+								<p>Limousines de luxe pour anniversaires, enterrement de vie de garçon/jeune fille et événements privés.</p>
 								<ul class="service-features">
 									<li>Ambiance festive</li>
 									<li>Système audio premium</li>
 									<li>Discrétion assurée</li>
+									<li>Enterrement de vie de garçon/jeune fille</li>
 								</ul>
 							</div>
 						</div>
 
 						<div class="service-card">
 							<div class="service-content">
-								<h3>Service Photographie & Vidéo</h3>
+								<h3>Clip vidéo/Shooting photo</h3>
 								<p>Immortalisez vos moments les plus précieux avec notre service de photographie et vidéaste professionnel qui vous suivra pendant toute la durée de votre événement.</p>
 								<ul class="service-features">
 									<li>Photographe professionnel expérimenté</li>
@@ -487,41 +492,6 @@
 								</div>
 							</div>
 
-							<!-- Lincoln Limousine -->
-									<div class="carousel-slide">
-									<div class="vehicle-card">
-									<div class="vehicle-info">
-										<h3>Lincoln Limousine</h3>
-										<div class="vehicle-description">
-											<p><strong>Lincoln Limousine</strong> : Élégance classique intemporelle. Confort suprême et discrétion pour événements prestigieux. Capacité 8 passagers.</p>
-										</div>
-										<div class="vehicle-specs">
-											<div class="spec-item">
-												<i class="fas fa-users"></i>
-												<span>Jusqu'à 7 passagers</span>
-											</div>
-											<div class="spec-item">
-												<i class="fas fa-gem"></i>
-												<span>Élégance intemporelle</span>
-											</div>
-											<div class="spec-item">
-												<i class="fas fa-couch"></i>
-												<span>Confort présidentiel</span>
-											</div>
-											<div class="spec-item">
-												<i class="fas fa-shield-alt"></i>
-												<span>Discrétion assurée</span>
-											</div>
-										</div>
-										<div class="vehicle-actions">
-											<a href="galerie.html" class="discover-btn">
-												<i class="fas fa-search"></i>
-												En découvrir plus
-											</a>
-										</div>
-									</div>
-								</div>
-							</div>
 						</div>
 					</div>
 						<!-- Navigation mobile en bas -->
@@ -705,23 +675,6 @@
 							</div>
 						</div>
 
-						<div class="carousel-slide">
-							<div class="pricing-card">
-								<div class="pricing-header">
-									<h3>Lincoln Limousine</h3>
-									<div class="price">120€*<span>/heure</span></div>
-								</div>
-								<div class="pricing-features">
-									<ul>
-										<li>Jusqu'à 8 passagers</li>
-										<li>Confort et élégance</li>
-										<li>Intérieur cuir luxueux</li>
-										<li>Idéal pour mariages</li>
-									</ul>
-								</div>
-								<a href="#contact" class="pricing-btn" data-vehicule="hummer-limousine">Réserver</a>
-							</div>
-						</div>
 
 						<div class="carousel-slide">
 							<div class="pricing-card featured">
@@ -836,6 +789,24 @@
 									<p>Île-de-France & Beauvais<br>Toute la France sur devis</p>
 								</div>
 							</div>
+
+							<div class="contact-method">
+								<i class="fab fa-whatsapp"></i>
+								<div>
+									<h4>WhatsApp</h4>
+									<a href="https://wa.me/33612940540" target="_blank" rel="noopener noreferrer">06 12 94 05 40</a>
+									<p>Contact rapide 24h/24</p>
+								</div>
+							</div>
+
+							<div class="contact-method">
+								<i class="fab fa-instagram"></i>
+								<div>
+									<h4>Instagram</h4>
+									<a href="https://www.instagram.com/frlimousine_/" target="_blank" rel="noopener noreferrer">@frlimousine_</a>
+									<p>Suivez-nous</p>
+								</div>
+							</div>
 						</div>
 
 						<div class="contact-form">
@@ -879,7 +850,6 @@
 											<option value="mustang-rouge">Mustang Rouge (3 passagers max) - 250€/h</option>
 											<option value="mustang-bleu">Mustang Bleu (3 passagers max) - 250€/h</option>
 											<option value="excalibur">Excalibur (2 passagers max) - 250€/h</option>
-											<option value="lincoln-limousine">Lincoln Limousine (8 passagers) - 120€/h</option>
 											<option value="hummer-limousine">Hummer Limousine (8 passagers max) - 280€/h</option>
 											<option value="mercedes-viano">Mercedes Viano (7 passagers max) - 50€/h</option>
 										</select>

@@ -58,7 +58,6 @@ const VEHICULE_NAMES = {
     'mustang-rouge': 'Mustang Rouge',
     'mustang-bleu': 'Mustang Bleu',
     'excalibur': 'Excalibur',
-    'lincoln-limousine': 'Lincoln Limousine',
     'hummer-limousine': 'Hummer Limousine',
     'mercedes-viano': 'Mercedes Viano',
 };
