@@ -1,4 +1,4 @@
-m ""const VEHICULE_PRICES = {
+const VEHICULE_PRICES = {
     'mustang-rouge': 90,
     'mustang-bleu': 95,
     'excalibur': 110,
