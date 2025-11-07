@@ -1,7 +1,7 @@
-// Service Worker pour FRLimousine PWA
-const CACHE_NAME = 'frlimousine-v1.1';
-const STATIC_CACHE = 'frlimousine-static-v1.1';
-const DYNAMIC_CACHE = 'frlimousine-dynamic-v1.1';
+// Service Worker pour Beverly Limousine PWA
+const CACHE_NAME = 'beverly-limousine-v1.1';
+const STATIC_CACHE = 'beverly-limousine-static-v1.1';
+const DYNAMIC_CACHE = 'beverly-limousine-dynamic-v1.1';
 
 // Ressources à mettre en cache
 const STATIC_ASSETS = [

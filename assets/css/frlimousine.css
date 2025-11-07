@@ -114,9 +114,11 @@ input, select, textarea {
 
 .logo h1 {
 	margin: 0;
-	font-size: 1.8rem;
-	font-weight: 700;
-	letter-spacing: 0.05em;
+	font-family: 'Pinyon Script', cursive; /* Application de la police script */
+	font-size: 2.2rem; /* Taille ajustée pour la lisibilité */
+	font-weight: 400; /* Poids normal pour Pinyon Script */
+	letter-spacing: normal; /* Espacement par défaut pour une police script */
+	text-transform: none; /* Pas de majuscules */
 }
 
 .logo a {
@@ -393,12 +395,13 @@ body.menu-open {
 }
 
 .hero-title {
-	font-size: 3.5rem;
-	font-weight: 900;
+	font-family: 'Pinyon Script', cursive; /* Police du logo */
+	font-size: 5rem; /* Taille augmentée pour la lisibilité */
+	font-weight: 400; /* Poids normal pour Pinyon Script */
 	margin-bottom: 1rem;
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
-	line-height: 1.1;
+	text-transform: none; /* Pas de majuscules pour une police script */
+	letter-spacing: normal; /* Espacement par défaut */
+	line-height: 1.2; /* Hauteur de ligne ajustée */
 }
 
 .hero-subtitle {
@@ -1058,17 +1061,15 @@ body.menu-open {
 	display: flex;
 	flex-direction: column;
 	width: 100%; /* S'assure que la carte prend toute la largeur du slide */
-	min-height: 450px; /* Hauteur minimale réduite pour moins d'espace vide */
-	height: 450px; /* Hauteur fixe réduite pour moins d'espace vide */
-	width: 100%;
-	min-height: 450px;
-	height: 450px;
+	min-height: 400px;
+	height: auto;
 }
 
 .vehicle-image {
 	width: 100%;
-	height: 220px; /* Hauteur réduite pour l'image */
-	height: 220px;
+	aspect-ratio: 16/9;
+	min-height: 220px;
+	max-height: 420px;
 	overflow: hidden;
 	position: relative;
 }
@@ -1077,6 +1078,7 @@ body.menu-open {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+	object-position: center;
 	transition: transform 0.3s ease;
 }
 
@@ -1089,12 +1091,16 @@ body.menu-open {
 	background: rgba(255, 255, 255, 0.1);
 	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 }
-
+.fleet-carousel .vehicle-image {
+  aspect-ratio: 16/9;
+  min-height: 280px;
+  max-height: 420px;
+}
 /* Anciennes règles vehicle-image supprimées */
 
 .vehicle-info {
 	padding: 1.2rem;
-	flex-grow: 1;
+	flex-grow: 0;
 	display: flex;
 	flex-direction: column;
 }
@@ -1131,9 +1137,9 @@ body.menu-open {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-top: auto;
-	padding-top: 1rem;
-	min-height: 50px;
+	margin-top: 0;
+	padding-top: 0;
+	min-height: 30px;
 }
 
 .discover-btn {
@@ -1911,7 +1917,7 @@ body.menu-open {
 
 .footer-brand h3 {
 	font-size: 2rem;
-	font-weight: 800;
+	font-weight: 700; /* Cohérence avec le logo principal */
 	color: #ffffff;
 	margin-bottom: 1rem;
 }
@@ -3634,6 +3640,7 @@ img.lazy.loaded {
 .partners-logos {
 	display: flex;
 	justify-content: center;
+}
 
 .partners-logos .partner-logo {
 	display: flex;
@@ -3650,6 +3657,7 @@ img.lazy.loaded {
 	position: relative;
 	width: 100%;
 	padding: 0 60px;
+	overflow-x: visible;
 }
 
 .partners-carousel .carousel-container {
@@ -3666,9 +3674,9 @@ img.lazy.loaded {
 .partners-carousel .carousel-slide {
 	flex: 0 0 100%;
 	display: flex;
-	padding: 0;
+	padding: 0 0 0 500px;
 	height: 100%;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: center;
 	gap: 2rem; /* Espace entre les logos */
 	flex-wrap: wrap; /* Permet aux logos de passer à la ligne sur petits écrans */

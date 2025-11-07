@@ -1,4 +1,4 @@
-# Projet Limousine - Ayoub Informatique
+# Projet Beverly Limousine - Ayoub Informatique
 
 **Site web de location de limousines développé par Ayoub Informatique**
 

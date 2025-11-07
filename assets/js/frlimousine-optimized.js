@@ -128,7 +128,7 @@ function calculatePrice() {
 
 
 
-const RATE_LIMIT_STORAGE_KEY = 'frlimousine_form_submissions';
+const RATE_LIMIT_STORAGE_KEY = 'beverly_limousine_form_submissions';
 const MAX_SUBMISSIONS_PER_HOUR = 5;
 const MAX_SUBMISSIONS_PER_DAY = 20;
 
@@ -248,7 +248,7 @@ function sendReservationEmail(data, form) { // Accepter 'form' comme argument
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            filename: `devis-frlimousine-${data.nom.replace(/\s+/g, '-')}-${Date.now()}.html`,
+            filename: `devis-beverly-limousine-${data.nom.replace(/\s+/g, '-')}-${Date.now()}.html`,
             content: pdfContent,
             client: {
                 nom: data.nom,
@@ -305,7 +305,7 @@ function generatePDF(data) {
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Devis FRLimousine</title>
+    <title>Devis Beverly Limousine</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
         .header { text-align: center; margin-bottom: 30px; color: #d42121; }
@@ -319,7 +319,7 @@ function generatePDF(data) {
 </head>
 <body>
     <div class="header">
-        <div class="logo">FRLimousine</div>
+        <div class="logo">Beverly Limousine</div>
         <h2>Devis de Réservation</h2>
         <p>Date: ${formatDate(data.date)}</p>
     </div>
@@ -824,7 +824,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.classList.remove('is-preload');
         });
 
-        console.log('🚀 FRLimousine website loaded - Optimisé & Performant');
+        console.log('🚀 Beverly Limousine website loaded - Optimisé & Performant');
     } catch (error) {
         console.error('Erreur lors de l\'initialisation du site:', error);
         // Fallback : retirer la classe preload même en cas d'erreur
