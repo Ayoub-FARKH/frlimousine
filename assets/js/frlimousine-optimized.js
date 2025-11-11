@@ -1,10 +1,10 @@
 const VEHICULE_PRICES = {
-    'mustang-rouge': 90,
-    'mustang-bleu': 95,
-    'excalibur': 110,
+    'mustang-rouge': 200,
+    'mustang-bleu': 200,
+    'excalibur': 200,
     'lincoln-limousine': 120,
-    'hummer-limousine': 150,
-    'mercedes-viano': 85,
+    'hummer-limousine': 250,
+    'mercedes-viano': 65,
 };
 
 const OPTIONS_PRICES = {
@@ -13,20 +13,21 @@ const OPTIONS_PRICES = {
 };
 
 const VEHICULE_NAMES = {
-    'mustang-rouge': 'Mustang Rouge',
-    'mustang-bleu': 'Mustang Bleu',
     'excalibur': 'Excalibur',
     'hummer-limousine': 'Hummer Limousine',
-    'mercedes-viano': 'Mercedes Viano',
+    'mercedes-viano': 'Mercedes Classe V',
+    'mustang-rouge': 'Mustang Rouge',
+    'mustang-bleu': 'Mustang Bleu',
+    'lincoln-limousine': 'Lincoln Limousine',
 };
 
 const MAX_PASSAGERS = {
+    'excalibur': 2,
+    'hummer-limousine': 8,
+    'mercedes-viano': 7,
     'mustang-rouge': 3,
     'mustang-bleu': 3,
-    'excalibur': 2,
-    'mercedes-viano': 7,
     'lincoln-limousine': 8,
-    'hummer-limousine': 8,
 };
 
 function initBurgerMenu() {
@@ -557,7 +558,14 @@ function initCarousel(selector, options = {}) {
     wrapper.addEventListener('touchmove', (e) => {
         touchEndX = e.touches[0].clientX;
     });
-    wrapper.addEventListener('touchend', () => {
+    wrapper.addEventListener('touchend', (e) => {
+        // Vérifier si le touchend vient d'un bouton protégé
+        const target = e.target.closest('.pricing-btn, .discover-btn');
+        if (target) {
+            console.log('Touchend ignoré sur bouton protégé:', target.className);
+            return; // Ignorer l'événement sur les boutons protégés
+        }
+        
         const diff = touchStartX - touchEndX;
         const swipeThreshold = 50;
         if (Math.abs(diff) > swipeThreshold) {
@@ -712,6 +720,71 @@ function initHapticFeedback() {
         });
     });
 }
+function initCarouselButtonProtection() {
+    // Protéger les boutons avant tout autre gestionnaire d'événements
+    
+    // Utiliser la capture d'événements pour intervenir avant les autres gestionnaires
+    document.addEventListener('touchstart', function(event) {
+        const target = event.target.closest('.pricing-btn, .discover-btn');
+        if (target) {
+            console.log('Touchstart capturé sur bouton protégé:', target.className);
+            event.stopPropagation(); // Empêcher la propagation dès le début
+        }
+    }, true); // true = capture phase
+    
+    document.addEventListener('click', function(event) {
+        const target = event.target.closest('.pricing-btn, .discover-btn');
+        if (target) {
+            console.log('Click capturé sur bouton protégé:', target.className);
+            event.preventDefault();
+            event.stopPropagation(); // Empêcher tout autre gestionnaire
+            
+            // Navigation manuelle
+            if (target.tagName === 'A' && target.href) {
+                setTimeout(() => {
+                    if (target.getAttribute('href').startsWith('#')) {
+                        const targetId = target.getAttribute('href').substring(1);
+                        const targetElement = document.getElementById(targetId);
+                        if (targetElement) {
+                            targetElement.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    } else {
+                        window.location.href = target.href;
+                    }
+                }, 0);
+            }
+            return false;
+        }
+    }, true); // true = capture phase
+    
+    // Protéger spécifiquement les événements tactiles sur les boutons
+    const protectButtons = document.querySelectorAll('.pricing-btn, .discover-btn');
+    protectButtons.forEach(button => {
+        // Gestionnaire touchend avec priorité haute
+        button.addEventListener('touchend', function(event) {
+            console.log('Touchend sur bouton protégé:', this.className);
+            event.preventDefault();
+            event.stopPropagation();
+            
+            // Simuler un clic après touchend
+            setTimeout(() => {
+                if (this.tagName === 'A' && this.href) {
+                    if (this.getAttribute('href').startsWith('#')) {
+                        const targetId = this.getAttribute('href').substring(1);
+                        const targetElement = document.getElementById(targetId);
+                        if (targetElement) {
+                            targetElement.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    } else {
+                        window.location.href = this.href;
+                    }
+                }
+            }, 0);
+        }, { passive: false }); // passive: false pour permettre preventDefault
+    });
+    
+    console.log('Protection carrousel renforcée initialisée pour', protectButtons.length, 'boutons');
+}
 
 
 function registerServiceWorker() {
@@ -784,6 +857,8 @@ document.addEventListener('DOMContentLoaded', function() {
         initCarousel('.pricing-carousel', { autoplay: false, loop: true });
         initCarousel('.partners-carousel', { autoplay: false, loop: true });
         initCarousel('.partners-carousel', { autoplay: false, loop: true, slidesPerView: 1 });
+        // Empêcher la navigation du carrousel lors du clic sur les boutons Réserver et + de photos
+        initCarouselButtonProtection();
 
         // Écouteurs d'événements pour le formulaire
         const vehiculeSelect = document.getElementById('vehicule-select');

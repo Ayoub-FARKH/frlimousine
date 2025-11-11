@@ -20,6 +20,8 @@ body {
 	line-height: 1.6;
 	color: #2c2c2c;
 	background: #ffffff;
+	margin: 0;
+	padding: 0;
 	/* Optimisations OS */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -83,11 +85,12 @@ input, select, textarea {
 .header {
 	position: fixed;
 	top: 0;
+	left: 0;
 	width: 100%;
 	background: transparent; /* Fond transparent par défaut */
 	border-bottom: 1px solid transparent; /* Bordure transparente par défaut */
 	z-index: 1000;
-	transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; /* Transitions douces */
+	transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 	-webkit-backface-visibility: hidden;
 	-moz-backface-visibility: hidden;
 	backface-visibility: hidden;
@@ -103,19 +106,26 @@ input, select, textarea {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 1rem 2rem;
+	padding: 0.5rem 2rem;
 	max-width: 1400px;
 	margin: 0 auto;
 	position: relative;
 }
 
+.logo {
+	margin: 0;
+	padding: 0;
+}
+
 .logo h1 {
 	margin: 0;
+	padding: 0;
 	font-family: 'Pinyon Script', cursive; /* Application de la police script */
 	font-size: 2.2rem; /* Taille ajustée pour la lisibilité */
 	font-weight: 400; /* Poids normal pour Pinyon Script */
 	letter-spacing: normal; /* Espacement par défaut pour une police script */
 	text-transform: none; /* Pas de majuscules */
+	line-height: 1.2; /* Hauteur de ligne ajustée pour éviter l'espace supplémentaire */
 }
 
 .logo a {
@@ -367,7 +377,7 @@ body.menu-open {
 	padding: 2rem;
 	position: relative;
 	overflow: hidden;
-	background-image: url('images/webp/long_hummer.webp');
+	background-image: url('../images/fond-de-site/DSC06682.jpg');
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -3658,8 +3668,8 @@ img.lazy.loaded {
   }  
 
 .partner-logo {
-	width: 120px; /* Taille de base pour les logos */
-	height: 120px;
+	width: 140px; /* Taille de base pour les logos */
+	height: 140px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -3667,7 +3677,7 @@ img.lazy.loaded {
 	background: white;
 	border-radius: 10px;
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-	padding: 1rem; /* Espace intérieur pour que l'image respire */
+	padding: 0rem; /* Espace intérieur pour que l'image respire */
 }
 
 .partner-logo:hover {
@@ -3676,11 +3686,16 @@ img.lazy.loaded {
 }
 
 .partner-logo img {
-	max-width: 100%; /* L'image prend toute la largeur disponible */
-	max-height: 100%; /* L'image prend toute la hauteur disponible */
-	object-fit: contain;
-	height: auto; /* Garde les proportions */
-}
+	width: 100%;          /* remplit toute la largeur de la carte */
+	height: 100%;         /* remplit toute la hauteur */
+	object-fit: contain;  /* garde le ratio sans rogner */
+	display: block;       /* évite les espaces fantômes */
+  }
+
+  .partner-logo.fill img {
+	object-fit: cover;      /* supprime les bandes en haut/bas */
+	object-position: center;
+  }
 
 /* Responsive pour les logos sur mobile */
 @media screen and (max-width: 768px) {

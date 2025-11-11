@@ -1,7 +1,7 @@
 {
   "name": "FRLimousine - Location Limousines Paris",
   "short_name": "FRLimousine",
-  "description": "Service de location de voitures de luxe à Paris. Mustang, Excalibur, Mercedes Viano - Réservation 24h/24",
+  "description": "Service de location de voitures de luxe à Paris. Mustang, Excalibur, Mercedes Classe V - Réservation 24h/24",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",
