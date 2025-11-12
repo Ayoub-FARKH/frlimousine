@@ -15,7 +15,7 @@ const OPTIONS_PRICES = {
 const VEHICULE_NAMES = {
     'excalibur': 'Excalibur',
     'hummer-limousine': 'Hummer Limousine',
-    'mercedes-viano': 'Mercedes Classe V',
+    'mercedes-classe-v': 'Mercedes Classe V',
     'mustang-rouge': 'Mustang Rouge',
     'mustang-bleu': 'Mustang Bleu',
     'lincoln-limousine': 'Lincoln Limousine',
@@ -24,7 +24,7 @@ const VEHICULE_NAMES = {
 const MAX_PASSAGERS = {
     'excalibur': 2,
     'hummer-limousine': 8,
-    'mercedes-viano': 7,
+    'mercedes-classe-v': 7,
     'mustang-rouge': 3,
     'mustang-bleu': 3,
     'lincoln-limousine': 8,
@@ -128,7 +128,6 @@ function calculatePrice() {
 }
 
 
-
 const RATE_LIMIT_STORAGE_KEY = 'beverly_limousine_form_submissions';
 const MAX_SUBMISSIONS_PER_HOUR = 5;
 const MAX_SUBMISSIONS_PER_DAY = 20;
@@ -166,11 +165,6 @@ function checkRateLimit() {
 
 function validateReservation(event) {
     event.preventDefault();
-
-    // Vérifier le rate limiting
-    if (!checkRateLimit()) {
-        return false;
-    }
 
     const form = event.target;
     const formData = new FormData(form);
